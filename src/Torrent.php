@@ -31,6 +31,7 @@ class Torrent
      *
      * @param string $path
      * @param int $piece_length
+     * @throws \Exception
      */
     public function __construct($path, $piece_length)
     {
@@ -47,12 +48,12 @@ class Torrent
         $this->base_path = realpath($path);
 
         if (is_file($this->base_path)) {
-            $this->file_tree = (object)[
+            $this->file_tree = [
                 $this->name => $this->walk_path($this->base_path)
             ];
 
-            unset($this->files);
-            $this->length = $this->file_tree[$this->name][b''][b'length'];
+            $this->files = [];
+            $this->length = $this->file_tree[$this->name]['']['length'];
         } else {
             $this->file_tree = $this->walk_path($this->base_path);
         }
@@ -60,10 +61,10 @@ class Torrent
         try {
             if (count($this->files) > 1) {
                 $this->pieces[] = $this->residue_hasher->append_padding();
-                $this->files[] = (object)[
-                    'attr' => 'p',
+                $this->files[] = [
+                    'attr'   => 'p',
                     'length' => $this->residue_hasher->pad_length,
-                    'path' => [
+                    'path'   => [
                         '.pad',
                         (string)$this->residue_hasher->pad_length
                     ]
@@ -71,7 +72,8 @@ class Torrent
             } else {
                 $this->pieces[] = $this->residue_hasher->discard_padding();
             }
-            unset($this->residue_hasher);
+
+            $this->residue_hasher = null;
         } catch (\Exception $e) {
 
         }
@@ -79,13 +81,14 @@ class Torrent
         // Flatten the piece hashes into a single bytes object
         $this->pieces = '';
 
-        unset($this->base_path);
+        $this->base_path = null;
     }
 
     /**
      * Return the info hash in v2 (SHA256) format
      *
      * @return string
+     * @throws \Exception
      */
     public function info_hash_v2()
     {
@@ -96,6 +99,7 @@ class Torrent
      * Return the info hash in v1 (SHA1) format
      *
      * @return string
+     * @throws \Exception
      */
     public function info_hash_v1()
     {
@@ -106,7 +110,7 @@ class Torrent
      * Walk through a directory or file and return an object
      *
      * @param string $path
-     * @return object
+     * @return array
      * @throws \Exception
      */
     private function walk_path($path)
@@ -114,17 +118,17 @@ class Torrent
         if (file_exists($path)) {
             try {
                 $this->pieces[] = $this->residue_hasher->append_padding();
-                $this->files[] = (object)[
-                    'attr' => 'p',
+                $this->files[] = [
+                    'attr'   => 'p',
                     'length' => $this->residue_hasher->pad_length,
-                    'path' => [
+                    'path'   => [
                         '.pad',
                         (string)$this->residue_hasher->pad_length
                     ]
                 ];
 
                 unset($this->residue_hasher);
-            } catch (\Exception $e) {
+            } catch (\Error $e) {
 
             }
 
@@ -132,21 +136,21 @@ class Torrent
             $this->residue_hasher = $hashes;
             $this->piece_layers[] = $hashes;
             $this->pieces = array_merge($this->pieces, $hashes->piecesv1);
-            $this->files[] = (object)[
+            $this->files[] = [
                 'length' => $hashes->length,
-                'path' => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path)))
+                'path'   => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path)))
             ];
 
             if (count($hashes) == 0) {
-                return (object)[
-                    '' => (object)[
+                return [
+                    '' => [
                         'length' => count($hashes)
                     ]
                 ];
             } else {
-                return (object)[
-                    '' => (object)[
-                        'length' => count($hashes),
+                return [
+                    '' => [
+                        'length'      => count($hashes),
                         'pieces root' => $hashes->root
                     ]
                 ];
@@ -168,7 +172,7 @@ class Torrent
                 $list[$p[0]] = $this->walk_path($p[1]);
             }
 
-            return (object)$list;
+            return $list;
         }
 
         throw new \Exception('Unsupported dentry type');
@@ -179,14 +183,14 @@ class Torrent
      *
      * @param string $tracker
      * @param bool $hybrid
-     * @return object
+     * @return array
      */
     public function create($tracker, $hybrid = true)
     {
-        $info = (object)[
-            'name' => $this->name,
+        $info = [
+            'name'         => $this->name,
             'piece length' => $this->piece_length,
-            'file tree' => $this->file_tree,
+            'file tree'    => $this->file_tree,
             'meta version' => 2,
         ];
 
@@ -209,10 +213,10 @@ class Torrent
             }
         }
 
-        return (object)[
-            'announce' => $tracker,
-            'info' => $info,
-            'piece layers' => (object)$layers
+        return [
+            'announce'     => $tracker,
+            'info'         => $info,
+            'piece layers' => $layers
         ];
     }
 }
