@@ -21,6 +21,7 @@ class FileHasher
      *
      * @param string $path
      * @param int $piece_length
+     * @throws \Exception
      */
     public function __construct($path, $piece_length)
     {
@@ -60,7 +61,7 @@ class FileHasher
                 // should be padded to the next power of two instead of the next
                 // piece boundary.
 
-                $leaves_required = count($this->piecesv2) == 0 ? 1 << filesize(count($blocks) - 1) : $blocks_per_piece;
+                $leaves_required = count($this->piecesv2) == 0 ? 1 << count($blocks) - 1 : $blocks_per_piece;
 
                 // How to do the range here?
                 // TODO: Convert this from Python
@@ -89,9 +90,7 @@ class FileHasher
                 $this->piecesv2 = '';
 
                 // Balance the tree by padding with zero hashes to the next power of two
-                // TODO: Convert from Python
-                // pad_piece_hash = root_hash([bytes(32)] * blocks_per_piece)
-                $byteCollection = [];
+                $byteCollection = random_bytes(32) * $blocks_per_piece;
                 $pad_piece_hash = self::root_hash($byteCollection);
 
                 // TODO: Convert from Python
