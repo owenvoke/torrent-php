@@ -29,13 +29,13 @@ use Symfony\Component\Console\Output\OutputInterface;
             $file->fwrite(
                 Bencode::encode(
                     $torrent->create(
-                        $input->getArgument('tracker'),
-                        $input->getArgument('v2-only')
+                        $input->getOption('tracker'),
+                        $input->getOption('v2-only')
                     )
                 )
             );
 
-            if ($input->getOption('v2-only')) {
+            if (!$input->getOption('v2-only')) {
                 $output->writeln('v1 Info Hash: ' . $torrent->info_hash_v1());
             }
             $output->writeln('v2 Info Hash: ' . $torrent->info_hash_v2());
