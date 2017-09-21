@@ -1,0 +1,18 @@
+{
+  "name": "pxgamer/torrent-v2",
+  "description": "A set of torrent management classes with support for Torrent v2.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "require": {
+    "pure-bencode/pure-bencode": "^1.1",
+    "symfony/console": "^3.3.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "pxgamer\\Torrent\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/torrent"
+  ]
+}
