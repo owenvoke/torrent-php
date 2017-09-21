@@ -25,15 +25,12 @@ use Symfony\Component\Console\Output\OutputInterface;
         if (is_dir($input->getArgument('path')) || file_exists($input->getArgument('path'))) {
             $torrent = new Torrent($input->getArgument('path'), $input->getOption('piece-length'));
 
-            $file = new SplFileObject($torrent->name . '.torrent', 'wb');
-            $file->fwrite(
-                Bencode::encode(
-                    $torrent->create(
-                        $input->getOption('tracker'),
-                        $input->getOption('v2-only')
-                    )
-                )
+            $torrent->create(
+                $input->getOption('tracker'),
+                $input->getOption('v2-only')
             );
+
+            $torrent->save();
 
             if (!$input->getOption('v2-only')) {
                 $output->writeln('v1 Info Hash: ' . $torrent->info_hash_v1());

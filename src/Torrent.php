@@ -219,4 +219,19 @@ class Torrent
             'piece layers' => $layers
         ];
     }
+
+    /**
+     * @param null|string $filename
+     * @return bool|int
+     * @throws \Exception
+     */
+    public function save($filename = null)
+    {
+        return file_put_contents(
+            is_null($filename) ?
+                $this->info['name'] . '.torrent' :
+                $filename,
+            Bencode::encode($this)
+        );
+    }
 }
