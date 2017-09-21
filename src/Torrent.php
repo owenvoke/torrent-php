@@ -2,8 +2,6 @@
 
 namespace pxgamer\Torrent;
 
-use PureBencode\Bencode;
-
 /**
  * Class Torrent
  * @package pxgamer\Torrent
