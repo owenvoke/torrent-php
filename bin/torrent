@@ -1,0 +1,47 @@
+#!/usr/bin/env php
+<?php
+if (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require __DIR__ . '/../../../autoload.php';
+} else {
+    require __DIR__ . '/../vendor/autoload.php';
+}
+
+use PureBencode\Bencode;
+use pxgamer\Torrent\Torrent;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+(new Application('BitTorrent v2 Manager', '1.0.0'))
+    ->register('create')
+    ->addArgument('path', InputArgument::REQUIRED, 'The directory or file to create a .torrent for.')
+    ->addOption('piece-length', 'p', InputOption::VALUE_REQUIRED, 'Must be a power of two', 65536)
+    ->addOption('v2-only', '2', InputOption::VALUE_OPTIONAL, 'Don\'t generate v1 compatibility keys', false)
+    ->addOption('tracker', 't', InputOption::VALUE_REQUIRED, 'The main announce tracker.',
+        ['http://example.com/announce'])
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        if (is_dir($input->getArgument('path')) || file_exists($input->getArgument('path'))) {
+            $torrent = new Torrent($input->getArgument('path'), $input->getOption('piece-length'));
+
+            $file = new SplFileObject($torrent->name . '.torrent', 'wb');
+            $file->fwrite(
+                Bencode::encode(
+                    $torrent->create(
+                        $input->getArgument('tracker'),
+                        $input->getArgument('v2-only')
+                    )
+                )
+            );
+
+            if ($input->getOption('v2-only')) {
+                $output->writeln('v1 Info Hash: ' . $torrent->info_hash_v1());
+            }
+            $output->writeln('v2 Info Hash: ' . $torrent->info_hash_v2());
+        } else {
+            throw new \Exception('Invalid input provided.');
+        }
+    })
+    ->getApplication()
+    ->run();
