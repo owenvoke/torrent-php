@@ -4,7 +4,6 @@
   "minimum-stability": "stable",
   "license": "MIT",
   "require": {
-    "pure-bencode/pure-bencode": "^1.1",
     "symfony/console": "^3.3.9"
   },
   "autoload": {
