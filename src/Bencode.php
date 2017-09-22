@@ -9,7 +9,7 @@ namespace pxgamer\Torrent;
 class Bencode
 {
     /**
-     * @param mixed data to encode
+     * @param mixed $mixed data to encode
      * @return string torrent encoded data
      */
     static public function encode($mixed)
@@ -69,7 +69,7 @@ class Bencode
     }
 
     /**
-     * @param string data or file path to decode
+     * @param string $string data or file path to decode
      * @return array decoded torrent data
      * @throws \Exception
      */
@@ -82,7 +82,7 @@ class Bencode
     }
 
     /**
-     * @param string data to decode
+     * @param string $data data to decode
      * @return array|string decoded torrent data
      * @throws \Exception
      */
@@ -104,7 +104,7 @@ class Bencode
     }
 
     /**
-     * @param string data to decode
+     * @param string $data data to decode
      * @return array decoded dictionary
      * @throws \Exception
      */
@@ -134,7 +134,7 @@ class Bencode
     }
 
     /**
-     * @param string data to decode
+     * @param string $data data to decode
      * @return array decoded list
      * @throws \Exception
      */
@@ -152,7 +152,7 @@ class Bencode
     }
 
     /**
-     * @param string data to decode
+     * @param string $data data to decode
      * @return string decoded string
      * @throws \Exception
      */
@@ -174,7 +174,7 @@ class Bencode
     }
 
     /**
-     * @param string data to decode
+     * @param string $data data to decode
      * @return integer decoded integer
      * @throws \Exception
      */
