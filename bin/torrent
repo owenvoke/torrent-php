@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     ->register('create')
     ->addArgument('path', InputArgument::REQUIRED, 'The directory or file to create a .torrent for.')
     ->addOption('piece-length', 'p', InputOption::VALUE_REQUIRED, 'Must be a power of two', 65536)
-    ->addOption('v2-only', '2', InputOption::VALUE_OPTIONAL, 'Don\'t generate v1 compatibility keys', false)
+    ->addOption('v2-only', '2', InputOption::VALUE_NONE, 'Don\'t generate v1 compatibility keys')
     ->addOption('tracker', 't', InputOption::VALUE_REQUIRED, 'The main announce tracker.',
         'http://example.com/announce')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
