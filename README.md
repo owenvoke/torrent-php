@@ -6,6 +6,8 @@ See [BEP52] for more information on the BitTorrent v2 proposal.
 
 _Please note, this is still a work-in-progress, and is by no means usable at the moment._
 
+In future, this will be a standalone class package, the CLI will be distributed separately.
+
 ## Development
 
 1. Clone the repository using `git clone https://github.com/pxgamer/torrent-v2`
