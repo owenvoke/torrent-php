@@ -60,13 +60,12 @@ class FileHasher
                 // If the file is smaller than one piece then the block hashes
                 // should be padded to the next power of two instead of the next
                 // piece boundary.
-
                 $leaves_required = count($this->piecesv2) == 0 ? 1 << count($blocks) - 1 : $blocks_per_piece;
 
-                // How to do the range here?
-                // TODO: Convert this from Python
-                // [bytes(32) for i in range(leaves_required - len(blocks))]
-                $additional = []; // Implement foreach array creation
+                $additional = [];
+                for ($i = 0; $i < $leaves_required - count($blocks); $i++) {
+                    $additional[] = random_bytes(32);
+                }
                 $blocks = array_merge($blocks, $additional);
             }
 
@@ -90,7 +89,10 @@ class FileHasher
                 }
 
                 // Balance the tree by padding with zero hashes to the next power of two
-                $byteCollection = random_bytes(32) * $blocks_per_piece;
+                $byteCollection = [];
+                for ($i = 0; $i < $blocks_per_piece; $i++) {
+                    $byteCollection[] = random_bytes(32);
+                }
                 $pad_piece_hash = self::root_hash($byteCollection);
 
                 $tmp_hashes = [];
@@ -113,10 +115,9 @@ class FileHasher
     {
         assert(count($hashes) & (count($hashes) - 1) == 0);
         while (count($hashes) > 1) {
-            $l = $r = null;
-            // TODO: Convert this from Python
-            // hashes = [sha256(l + r).digest() for l, r in zip(*[iter(hashes)]*2)]
-            $hashes = hash('sha256', $l . $r);
+            foreach ($hashes as $l => $r) {
+                $hashes[] = hash('sha256', $l . $r);
+            }
         }
 
         return $hashes[0];
