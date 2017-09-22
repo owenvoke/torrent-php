@@ -20,7 +20,7 @@ class FileHasher
      * FileHasher constructor.
      *
      * @param string $path
-     * @param int $piece_length
+     * @param int    $piece_length
      * @throws \Exception
      */
     public function __construct($path, $piece_length)
@@ -85,17 +85,19 @@ class FileHasher
 
             if (count($this->piecesv2) > 1) {
                 // Flatten piecesv2 into a single bytes object since that is what is needed for the 'piece layers' field
-                // TODO: Convert from Python
-                // self.piecesv2 = bytes([byte for piece in self.piecesv2 for byte in piece])
-                $this->piecesv2 = '';
+                foreach ($this->piecesv2 as $piece => $byte) {
+                    $this->piecesv2[$piece] = random_bytes($byte);
+                }
 
                 // Balance the tree by padding with zero hashes to the next power of two
                 $byteCollection = random_bytes(32) * $blocks_per_piece;
                 $pad_piece_hash = self::root_hash($byteCollection);
 
-                // TODO: Convert from Python
-                // layer_hashes.extend([pad_piece_hash for i in range((1<<(len(layer_hashes)-1).bit_length()) - len(layer_hashes))])
-                $layer_hashes = array_merge($layer_hashes);
+                $tmp_hashes = [];
+                for ($i = 0; $i < range(0, (1 << (count($layer_hashes) - 1)) - count($layer_hashes)); $i++) {
+                    $tmp_hashes[] = $pad_piece_hash;
+                }
+                $layer_hashes = array_merge($tmp_hashes);
             }
             $this->root = $this->root_hash($layer_hashes);
         }
@@ -116,6 +118,7 @@ class FileHasher
             // hashes = [sha256(l + r).digest() for l, r in zip(*[iter(hashes)]*2)]
             $hashes = hash('sha256', $l . $r);
         }
+
         return $hashes[0];
     }
 
@@ -128,6 +131,7 @@ class FileHasher
     {
         hash_update($this->pad_hasher, $this->pad_length);
         $pad_hash_tmp = hash_copy($this->pad_hasher);
+
         return hash_final($pad_hash_tmp);
     }
 
