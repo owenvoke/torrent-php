@@ -6,7 +6,6 @@ if (file_exists(__DIR__ . '/../../../autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
 }
 
-use PureBencode\Bencode;
 use pxgamer\Torrent\Torrent;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,10 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
     ->addOption('piece-length', 'p', InputOption::VALUE_REQUIRED, 'Must be a power of two', 65536)
     ->addOption('v2-only', '2', InputOption::VALUE_OPTIONAL, 'Don\'t generate v1 compatibility keys', false)
     ->addOption('tracker', 't', InputOption::VALUE_REQUIRED, 'The main announce tracker.',
-        ['http://example.com/announce'])
+        'http://example.com/announce')
     ->setCode(function (InputInterface $input, OutputInterface $output) {
         if (is_dir($input->getArgument('path')) || file_exists($input->getArgument('path'))) {
-            $torrent = new Torrent($input->getArgument('path'), $input->getOption('piece-length'));
+            $torrent = new Torrent($input->getOption('piece-length'));
+
+            $torrent->prepare($input->getArgument('path'));
 
             $torrent->create(
                 $input->getOption('tracker'),

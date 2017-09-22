@@ -23,27 +23,30 @@ class Torrent
      * @var FileHasher
      */
     public $residue_hasher;
+    public $data;
 
     /**
      * Torrent constructor.
      *
-     * @param string $path
      * @param int $piece_length
      * @throws \Exception
      */
-    public function __construct($path, $piece_length)
+    public function __construct($piece_length)
     {
         assert($piece_length >= self::BLOCK_SIZE, new \Exception);
         assert($piece_length, new \Exception);
 
         $this->piece_length = $piece_length;
-        $this->name = basename($path);
         $this->piece_layers = []; // v2 piece hashes
         $this->pieces = []; //v1 piece hashes
         $this->files = [];
         $this->info = [];
+    }
 
+    public function prepare($path)
+    {
         $this->base_path = realpath($path);
+        $this->name = basename($path);
 
         if (is_file($this->base_path)) {
             $this->file_tree = [
@@ -180,7 +183,7 @@ class Torrent
      * Create an object of the v2 metadata
      *
      * @param string $tracker
-     * @param bool $hybrid
+     * @param bool   $hybrid
      * @return array
      */
     public function create($tracker, $hybrid = true)
@@ -211,7 +214,7 @@ class Torrent
             }
         }
 
-        return [
+        return $this->data = [
             'announce'     => $tracker,
             'info'         => $info,
             'piece layers' => $layers
@@ -229,7 +232,7 @@ class Torrent
             is_null($filename) ?
                 $this->info['name'] . '.torrent' :
                 $filename,
-            Bencode::encode($this)
+            Bencode::encode($this->data)
         );
     }
 }
