@@ -152,7 +152,7 @@ class Torrent
                 return [
                     '' => [
                         'length'      => count($hashes),
-                        'pieces root' => $hashes->root
+                        'pieces root' => pack('H*', $hashes->root)
                     ]
                 ];
             }
