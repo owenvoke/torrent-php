@@ -28,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
             $torrent->create(
                 $input->getOption('tracker'),
-                $input->getOption('v2-only')
+                !$input->getOption('v2-only')
             );
 
             $torrent->save();
