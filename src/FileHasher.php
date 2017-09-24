@@ -39,9 +39,6 @@ class FileHasher
             $blocks = [];
             $v1hasher = hash_init('sha1');
 
-            // TODO: Convert this from Python
-            // Implement the for() loop
-            // for i in range(blocks_per_piece):
             $block = $file->fread(Torrent::BLOCK_SIZE);
             if (strlen($block) == 0) {
                 break;
