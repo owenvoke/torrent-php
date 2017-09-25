@@ -43,6 +43,10 @@ class Torrent
         $this->info = [];
     }
 
+    /**
+     * @param string $path
+     * @throws \Exception
+     */
     public function prepare($path)
     {
         $this->base_path = realpath($path);
@@ -142,16 +146,16 @@ class Torrent
                 'path'   => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path)))
             ];
 
-            if (count($hashes) == 0) {
+            if ($hashes->length == 0) {
                 return [
                     '' => [
-                        'length' => count($hashes)
+                        'length' => $hashes->length
                     ]
                 ];
             } else {
                 return [
                     '' => [
-                        'length'      => count($hashes),
+                        'length'      => $hashes->length,
                         'pieces root' => pack('H*', $hashes->root)
                     ]
                 ];
