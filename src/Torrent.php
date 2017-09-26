@@ -226,6 +226,8 @@ class Torrent
     }
 
     /**
+     * Save the data to a .torrent file
+     *
      * @param null|string $filename
      * @return bool|int
      * @throws \Exception
