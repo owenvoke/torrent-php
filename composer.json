@@ -1,7 +1,7 @@
 {
     "name": "pxgamer/torrent-v2",
     "type": "library",
-    "description": ":package_description",
+    "description": "A set of torrent management classes with support for Torrent v2.",
     "license": "MIT",
     "require": {
         "php": "^7.1",
@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "pxgamer\\:package_name\\": "src"
+            "pxgamer\\Torrent\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "pxgamer\\:package_name\\": "tests"
+            "pxgamer\\Torrent\\": "tests"
         }
     },
     "scripts": {
