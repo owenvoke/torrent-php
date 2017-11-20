@@ -80,7 +80,6 @@ class Torrent
 
             $this->residue_hasher = null;
         } catch (\Exception $e) {
-
         }
 
         // Flatten the piece hashes into a single bytes object
@@ -134,7 +133,6 @@ class Torrent
 
                 unset($this->residue_hasher);
             } catch (\Error $e) {
-
             }
 
             $hashes = new FileHasher($path, $this->piece_length);
