@@ -4,7 +4,6 @@ namespace pxgamer\Torrent;
 
 /**
  * Class Bencode
- * @package pxgamer\Torrent
  */
 class Bencode
 {

@@ -4,7 +4,6 @@ namespace pxgamer\Torrent;
 
 /**
  * Class FileHasher
- * @package pxgamer\Torrent
  */
 class FileHasher
 {
@@ -18,7 +17,6 @@ class FileHasher
 
     /**
      * FileHasher constructor.
-     *
      * @param string $path
      * @param int    $piece_length
      * @throws \Exception

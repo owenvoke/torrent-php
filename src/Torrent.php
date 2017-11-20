@@ -4,7 +4,6 @@ namespace pxgamer\Torrent;
 
 /**
  * Class Torrent
- * @package pxgamer\Torrent
  */
 class Torrent
 {
