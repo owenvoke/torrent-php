@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
-if (file_exists(__DIR__ . '/../../../autoload.php')) {
-    require __DIR__ . '/../../../autoload.php';
+if (file_exists(__DIR__.'/../../../autoload.php')) {
+    require __DIR__.'/../../../autoload.php';
 } else {
-    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__.'/../vendor/autoload.php';
 }
 
 use pxgamer\Torrent\Torrent;
@@ -34,9 +34,9 @@ use Symfony\Component\Console\Output\OutputInterface;
             $torrent->save();
 
             if (!$input->getOption('v2-only')) {
-                $output->writeln('v1 Info Hash: ' . $torrent->infoHashV1());
+                $output->writeln('v1 Info Hash: '.$torrent->infoHashV1());
             }
-            $output->writeln('v2 Info Hash: ' . $torrent->infoHashV2());
+            $output->writeln('v2 Info Hash: '.$torrent->infoHashV2());
         } else {
             throw new \Exception('Invalid input provided.');
         }
