@@ -34,9 +34,9 @@ use Symfony\Component\Console\Output\OutputInterface;
             $torrent->save();
 
             if (!$input->getOption('v2-only')) {
-                $output->writeln('v1 Info Hash: ' . $torrent->info_hash_v1());
+                $output->writeln('v1 Info Hash: ' . $torrent->infoHashV1());
             }
-            $output->writeln('v2 Info Hash: ' . $torrent->info_hash_v2());
+            $output->writeln('v2 Info Hash: ' . $torrent->infoHashV2());
         } else {
             throw new \Exception('Invalid input provided.');
         }

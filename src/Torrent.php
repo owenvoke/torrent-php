@@ -7,21 +7,54 @@ namespace pxgamer\Torrent;
  */
 class Torrent
 {
-    public const BLOCK_SIZE = 2 ** 14; // 16KB
+    /**
+     * Block size
+     */
+    public const BLOCK_SIZE = 16384; // 16KB
 
+    /**
+     * @var int
+     */
     public $piece_length;
+    /**
+     * @var array
+     */
     public $piece_layers;
+    /**
+     * @var array
+     */
     public $files;
+    /**
+     * @var array
+     */
     public $info;
+    /**
+     * @var string
+     */
     public $base_path;
+    /**
+     * @var string
+     */
     public $name;
+    /**
+     * @var array
+     */
     public $pieces;
+    /**
+     * @var array
+     */
     public $file_tree;
+    /**
+     * @var int
+     */
     public $length;
     /**
      * @var FileHasher
      */
     public $residue_hasher;
+    /**
+     * @var array
+     */
     public $data;
 
     /**
@@ -53,28 +86,28 @@ class Torrent
 
         if (is_file($this->base_path)) {
             $this->file_tree = [
-                $this->name => $this->walk_path($this->base_path)
+                $this->name => $this->walkPath($this->base_path)
             ];
 
             $this->files = [];
             $this->length = $this->file_tree[$this->name]['']['length'];
         } else {
-            $this->file_tree = $this->walk_path($this->base_path);
+            $this->file_tree = $this->walkPath($this->base_path);
         }
 
         try {
             if (count($this->files) > 1) {
-                $this->pieces[] = $this->residue_hasher->append_padding();
+                $this->pieces[] = $this->residue_hasher->appendPadding();
                 $this->files[] = [
                     'attr'   => 'p',
-                    'length' => $this->residue_hasher->pad_length,
+                    'length' => $this->residue_hasher->padLength,
                     'path'   => [
                         '.pad',
-                        (string)$this->residue_hasher->pad_length
+                        (string)$this->residue_hasher->padLength
                     ]
                 ];
             } else {
-                $this->pieces[] = $this->residue_hasher->discard_padding();
+                $this->pieces[] = $this->residue_hasher->discardPadding();
             }
 
             $this->residue_hasher = null;
@@ -93,7 +126,7 @@ class Torrent
      * @return string
      * @throws \Exception
      */
-    public function info_hash_v2()
+    public function infoHashV2()
     {
         return hash('sha256', Bencode::encode($this->info));
     }
@@ -104,7 +137,7 @@ class Torrent
      * @return string
      * @throws \Exception
      */
-    public function info_hash_v1()
+    public function infoHashV1()
     {
         return hash('sha1', Bencode::encode($this->info));
     }
@@ -116,17 +149,17 @@ class Torrent
      * @return array
      * @throws \Exception
      */
-    private function walk_path($path)
+    private function walkPath($path)
     {
         if (file_exists($path)) {
             try {
-                $this->pieces[] = $this->residue_hasher->append_padding();
+                $this->pieces[] = $this->residue_hasher->appendPadding();
                 $this->files[] = [
                     'attr'   => 'p',
-                    'length' => $this->residue_hasher->pad_length,
+                    'length' => $this->residue_hasher->padLength,
                     'path'   => [
                         '.pad',
-                        (string)$this->residue_hasher->pad_length
+                        (string)$this->residue_hasher->padLength
                     ]
                 ];
 
@@ -171,7 +204,7 @@ class Torrent
             sort($dentries);
 
             foreach ($dentries as $p) {
-                $list[$p[0]] = $this->walk_path($p[1]);
+                $list[$p[0]] = $this->walkPath($p[1]);
             }
 
             return $list;

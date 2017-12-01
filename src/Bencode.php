@@ -16,15 +16,15 @@ class Bencode
         switch (gettype($mixed)) {
             case 'integer':
             case 'double':
-                return self::encode_integer($mixed);
+                return self::encodeInteger($mixed);
                 break;
             case 'object':
                 $mixed = get_object_vars($mixed);
-                return self::encode_array($mixed);
+                return self::encodeArray($mixed);
             case 'array':
-                return self::encode_array($mixed);
+                return self::encodeArray($mixed);
             default:
-                return self::encode_string((string)$mixed);
+                return self::encodeString((string)$mixed);
         }
     }
 
@@ -32,7 +32,7 @@ class Bencode
      * @param string string to encode
      * @return string encoded string
      */
-    private static function encode_string($string)
+    private static function encodeString($string)
     {
         return strlen($string) . ':' . $string;
     }
@@ -41,7 +41,7 @@ class Bencode
      * @param integer integer to encode
      * @return string encoded integer
      */
-    private static function encode_integer($integer)
+    private static function encodeInteger($integer)
     {
         return 'i' . $integer . 'e';
     }
@@ -50,9 +50,9 @@ class Bencode
      * @param array array to encode
      * @return string encoded dictionary or list
      */
-    private static function encode_array($array)
+    private static function encodeArray($array)
     {
-        if (self::is_list($array)) {
+        if (self::isList($array)) {
             $return = 'l';
             foreach ($array as $value) {
                 $return .= self::encode($value);
@@ -77,7 +77,7 @@ class Bencode
         $data = is_file($string) ?
             file_get_contents($string) :
             $string;
-        return (array)self::decode_data($data);
+        return (array)self::decodeData($data);
     }
 
     /**
@@ -85,20 +85,20 @@ class Bencode
      * @return array|string decoded torrent data
      * @throws \Exception
      */
-    private static function decode_data(& $data)
+    private static function decodeData(& $data)
     {
         switch (self::char($data)) {
             case 'i':
                 $data = substr($data, 1);
-                return self::decode_integer($data);
+                return self::decodeInteger($data);
             case 'l':
                 $data = substr($data, 1);
-                return self::decode_list($data);
+                return self::decodeList($data);
             case 'd':
                 $data = substr($data, 1);
-                return self::decode_dictionary($data);
+                return self::decodeDictionary($data);
             default:
-                return self::decode_string($data);
+                return self::decodeString($data);
         }
     }
 
@@ -107,7 +107,7 @@ class Bencode
      * @return array decoded dictionary
      * @throws \Exception
      */
-    private static function decode_dictionary(& $data)
+    private static function decodeDictionary(& $data)
     {
         $dictionary = array();
         $previous = null;
@@ -118,14 +118,14 @@ class Bencode
             if (!ctype_digit($char)) {
                 throw new \Exception('Invalid dictionary key');
             }
-            $key = self::decode_string($data);
+            $key = self::decodeString($data);
             if (isset($dictionary[$key])) {
                 throw new \Exception('Duplicate dictionary key');
             }
             if ($key < $previous) {
                 throw new \Exception('Mis-sorted dictionary key');
             }
-            $dictionary[$key] = self::decode_data($data);
+            $dictionary[$key] = self::decodeData($data);
             $previous = $key;
         }
         $data = substr($data, 1);
@@ -137,14 +137,14 @@ class Bencode
      * @return array decoded list
      * @throws \Exception
      */
-    private static function decode_list(& $data)
+    private static function decodeList(& $data)
     {
         $list = array();
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
                 throw new \Exception('Unterminated list');
             }
-            $list[] = self::decode_data($data);
+            $list[] = self::decodeData($data);
         }
         $data = substr($data, 1);
         return $list;
@@ -155,7 +155,7 @@ class Bencode
      * @return string decoded string
      * @throws \Exception
      */
-    private static function decode_string(& $data)
+    private static function decodeString(& $data)
     {
         if (self::char($data) === '0' && substr($data, 1, 1) != ':') {
             throw new \Exception('Invalid string length, leading zero');
@@ -177,7 +177,7 @@ class Bencode
      * @return integer decoded integer
      * @throws \Exception
      */
-    private static function decode_integer(& $data)
+    private static function decodeInteger(& $data)
     {
         $start = 0;
         $end = strpos($data, 'e');
@@ -202,7 +202,7 @@ class Bencode
      * @param $array
      * @return bool
      */
-    protected static function is_list($array)
+    protected static function isList($array)
     {
         foreach (array_keys($array) as $key) {
             if (!is_int($key)) {
