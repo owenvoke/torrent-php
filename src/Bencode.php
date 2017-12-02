@@ -69,7 +69,7 @@ class Bencode
 
     /**
      * @param string $string data or file path to decode
-     * @return mixed decoded torrent data
+     * @return array|string|int decoded torrent data
      * @throws \Exception
      */
     public static function decode(string $string)
@@ -82,7 +82,7 @@ class Bencode
 
     /**
      * @param string $data data to decode
-     * @return array|string decoded torrent data
+     * @return array|string|int decoded torrent data
      * @throws \Exception
      */
     private static function decodeData(& $data)
@@ -109,7 +109,7 @@ class Bencode
      */
     private static function decodeDictionary(& $data)
     {
-        $dictionary = array();
+        $dictionary = [];
         $previous = null;
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
@@ -139,7 +139,7 @@ class Bencode
      */
     private static function decodeList(& $data)
     {
-        $list = array();
+        $list = [];
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
                 throw new \Exception('Unterminated list');
@@ -199,7 +199,7 @@ class Bencode
     }
 
     /**
-     * @param $array
+     * @param array $array
      * @return bool
      */
     protected static function isList($array)
@@ -213,7 +213,7 @@ class Bencode
     }
 
     /**
-     * @param $data
+     * @param string $data
      * @return bool|string
      */
     private static function char($data)
