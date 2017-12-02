@@ -2,6 +2,8 @@
 
 namespace pxgamer\Torrent;
 
+use pxgamer\Torrent\Exceptions\BencodeException;
+
 /**
  * Class Bencode
  */
@@ -113,17 +115,17 @@ class Bencode
         $previous = null;
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
-                throw new \Exception('Unterminated dictionary');
+                throw new BencodeException('Unterminated dictionary');
             }
             if (!ctype_digit($char)) {
-                throw new \Exception('Invalid dictionary key');
+                throw new BencodeException('Invalid dictionary key');
             }
             $key = self::decodeString($data);
             if (isset($dictionary[$key])) {
-                throw new \Exception('Duplicate dictionary key');
+                throw new BencodeException('Duplicate dictionary key');
             }
             if ($key < $previous) {
-                throw new \Exception('Mis-sorted dictionary key');
+                throw new BencodeException('Mis-sorted dictionary key');
             }
             $dictionary[$key] = self::decodeData($data);
             $previous = $key;
@@ -142,7 +144,7 @@ class Bencode
         $list = [];
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
-                throw new \Exception('Unterminated list');
+                throw new BencodeException('Unterminated list');
             }
             $list[] = self::decodeData($data);
         }
@@ -158,14 +160,14 @@ class Bencode
     private static function decodeString(& $data)
     {
         if (self::char($data) === '0' && substr($data, 1, 1) != ':') {
-            throw new \Exception('Invalid string length, leading zero');
+            throw new BencodeException('Invalid string length, leading zero');
         }
         if (!$colon = @strpos($data, ':')) {
-            throw new \Exception('Invalid string length, colon not found');
+            throw new BencodeException('Invalid string length, colon not found');
         }
         $length = intval(substr($data, 0, $colon));
         if ($length + $colon + 1 > strlen($data)) {
-            throw new \Exception('Invalid string, input too short for string length');
+            throw new BencodeException('Invalid string, input too short for string length');
         }
         $string = substr($data, $colon + 1, $length);
         $data = substr($data, $colon + $length + 1);
@@ -182,16 +184,16 @@ class Bencode
         $start = 0;
         $end = strpos($data, 'e');
         if ($end === 0) {
-            throw new \Exception('Empty integer');
+            throw new BencodeException('Empty integer');
         }
         if (self::char($data) == '-') {
             $start++;
         }
         if (substr($data, $start, 1) == '0' && $end > $start + 1) {
-            throw new \Exception('Leading zero in integer');
+            throw new BencodeException('Leading zero in integer');
         }
         if (!ctype_digit(substr($data, $start, $start ? $end - 1 : $end))) {
-            throw new \Exception('Non-digit characters in integer');
+            throw new BencodeException('Non-digit characters in integer');
         }
         $integer = substr($data, 0, $end);
         $data = substr($data, $end + 1);
