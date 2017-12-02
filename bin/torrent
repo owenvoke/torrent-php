@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 (new Application('BitTorrent v2 Manager', '1.0.0'))
     ->register('create')
+    ->setDescription('Create a new .torrent file from a specified file.')
     ->addArgument('path', InputArgument::REQUIRED, 'The directory or file to create a .torrent for.')
     ->addOption('piece-length', 'p', InputOption::VALUE_REQUIRED, 'Must be a power of two', 65536)
     ->addOption('v2-only', '2', InputOption::VALUE_NONE, 'Don\'t generate v1 compatibility keys')
