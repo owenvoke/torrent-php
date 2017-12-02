@@ -72,7 +72,7 @@ class Bencode
      * @return array decoded torrent data
      * @throws \Exception
      */
-    protected static function decode(string $string)
+    public static function decode(string $string)
     {
         $data = is_file($string) ?
             file_get_contents($string) :
