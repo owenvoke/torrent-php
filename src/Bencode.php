@@ -184,7 +184,7 @@ class Bencode
         $start = 0;
         $end = strpos($data, 'e');
         if ($end === 0) {
-            throw new BencodeException('Empty integer');
+            throw new BencodeException(BencodeException::INT_IS_EMPTY);
         }
         if (self::char($data) == '-') {
             $start++;

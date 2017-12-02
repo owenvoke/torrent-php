@@ -52,6 +52,19 @@ class BencodeExceptionTest extends TestCase
     /**
      * @throws BencodeException
      */
+    public function testIntDecodeThrowsExceptionOnEmpty()
+    {
+        $this->expectException(BencodeException::class);
+        $this->expectExceptionMessage(BencodeException::INT_IS_EMPTY);
+
+        $data = 'ie';
+
+        Bencode::decode($data);
+    }
+
+    /**
+     * @throws BencodeException
+     */
     public function testIntDecodeThrowsExceptionOnLeadingZero()
     {
         $this->expectException(BencodeException::class);

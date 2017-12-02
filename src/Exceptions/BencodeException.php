@@ -8,6 +8,7 @@ class BencodeException extends \Exception
     const STRING_COLON_NOT_FOUND = 'Invalid string length, colon not found.';
     const STRING_INPUT_TOO_SHORT = 'Invalid string, input too short for string length.';
 
+    const INT_IS_EMPTY = 'Empty integer.';
     const INT_LEADING_ZERO = 'Leading zero in integer.';
     const INT_NON_DIGIT_CHARS = 'Non-digit characters in integer.';
 
