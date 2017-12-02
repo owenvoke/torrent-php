@@ -36,7 +36,7 @@ class Bencode
      */
     private static function encodeString($string)
     {
-        return strlen($string) . ':' . $string;
+        return strlen($string).':'.$string;
     }
 
     /**
@@ -45,7 +45,7 @@ class Bencode
      */
     private static function encodeInteger($integer)
     {
-        return 'i' . $integer . 'e';
+        return 'i'.$integer.'e';
     }
 
     /**
@@ -63,16 +63,16 @@ class Bencode
             ksort($array, SORT_STRING);
             $return = 'd';
             foreach ($array as $key => $value) {
-                $return .= self::encode(strval($key)) . self::encode($value);
+                $return .= self::encode(strval($key)).self::encode($value);
             }
         }
-        return $return . 'e';
+        return $return.'e';
     }
 
     /**
      * @param string $string data or file path to decode
      * @return array|string|int decoded torrent data
-     * @throws \Exception
+     * @throws BencodeException
      */
     public static function decode(string $string)
     {
@@ -85,7 +85,7 @@ class Bencode
     /**
      * @param string $data data to decode
      * @return array|string|int decoded torrent data
-     * @throws \Exception
+     * @throws BencodeException
      */
     private static function decodeData(& $data)
     {
@@ -107,7 +107,7 @@ class Bencode
     /**
      * @param string $data data to decode
      * @return array decoded dictionary
-     * @throws \Exception
+     * @throws BencodeException
      */
     private static function decodeDictionary(& $data)
     {
@@ -115,17 +115,17 @@ class Bencode
         $previous = null;
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
-                throw new BencodeException('Unterminated dictionary');
+                throw new BencodeException(BencodeException::DICTIONARY_UNTERMINATED);
             }
             if (!ctype_digit($char)) {
-                throw new BencodeException('Invalid dictionary key');
+                throw new BencodeException(BencodeException::DICTIONARY_INVALID_KEY);
             }
             $key = self::decodeString($data);
             if (isset($dictionary[$key])) {
-                throw new BencodeException('Duplicate dictionary key');
+                throw new BencodeException(BencodeException::DICTIONARY_DUPLICATE_KEY);
             }
             if ($key < $previous) {
-                throw new BencodeException('Mis-sorted dictionary key');
+                throw new BencodeException(BencodeException::DICTIONARY_MIS_SORTED_KEYS);
             }
             $dictionary[$key] = self::decodeData($data);
             $previous = $key;
@@ -137,14 +137,14 @@ class Bencode
     /**
      * @param string $data data to decode
      * @return array decoded list
-     * @throws \Exception
+     * @throws BencodeException
      */
     private static function decodeList(& $data)
     {
         $list = [];
         while (($char = self::char($data)) != 'e') {
             if ($char === false) {
-                throw new BencodeException('Unterminated list');
+                throw new BencodeException(BencodeException::LIST_UNTERMINATED);
             }
             $list[] = self::decodeData($data);
         }
@@ -155,19 +155,19 @@ class Bencode
     /**
      * @param string $data data to decode
      * @return string decoded string
-     * @throws \Exception
+     * @throws BencodeException
      */
     private static function decodeString(& $data)
     {
         if (self::char($data) === '0' && substr($data, 1, 1) != ':') {
-            throw new BencodeException('Invalid string length, leading zero');
+            throw new BencodeException(BencodeException::STRING_LEADING_ZERO);
         }
         if (!$colon = @strpos($data, ':')) {
-            throw new BencodeException('Invalid string length, colon not found');
+            throw new BencodeException(BencodeException::STRING_COLON_NOT_FOUND);
         }
         $length = intval(substr($data, 0, $colon));
         if ($length + $colon + 1 > strlen($data)) {
-            throw new BencodeException('Invalid string, input too short for string length');
+            throw new BencodeException(BencodeException::STRING_INPUT_TOO_SHORT);
         }
         $string = substr($data, $colon + 1, $length);
         $data = substr($data, $colon + $length + 1);
@@ -177,7 +177,7 @@ class Bencode
     /**
      * @param string $data data to decode
      * @return integer decoded integer
-     * @throws \Exception
+     * @throws BencodeException
      */
     private static function decodeInteger(& $data)
     {
@@ -190,10 +190,10 @@ class Bencode
             $start++;
         }
         if (substr($data, $start, 1) == '0' && $end > $start + 1) {
-            throw new BencodeException('Leading zero in integer');
+            throw new BencodeException(BencodeException::INT_LEADING_ZERO);
         }
         if (!ctype_digit(substr($data, $start, $start ? $end - 1 : $end))) {
-            throw new BencodeException('Non-digit characters in integer');
+            throw new BencodeException(BencodeException::INT_NON_DIGIT_CHARS);
         }
         $integer = substr($data, 0, $end);
         $data = substr($data, $end + 1);

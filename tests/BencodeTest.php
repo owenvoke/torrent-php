@@ -3,6 +3,7 @@
 namespace pxgamer\Torrent;
 
 use PHPUnit\Framework\TestCase;
+use pxgamer\Torrent\Exceptions\BencodeException;
 
 /**
  * Class BencodeTest
@@ -61,7 +62,7 @@ class BencodeTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws BencodeException
      */
     public function testCanDecodeString()
     {
@@ -73,7 +74,7 @@ class BencodeTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws BencodeException
      */
     public function testCanDecodeInt()
     {
@@ -85,7 +86,7 @@ class BencodeTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws BencodeException
      */
     public function testCanDecodeArray()
     {
@@ -97,7 +98,7 @@ class BencodeTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws BencodeException
      */
     public function testCanDecodeObject()
     {
