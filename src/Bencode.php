@@ -69,7 +69,7 @@ class Bencode
 
     /**
      * @param string $string data or file path to decode
-     * @return array decoded torrent data
+     * @return mixed decoded torrent data
      * @throws \Exception
      */
     public static function decode(string $string)
@@ -77,7 +77,7 @@ class Bencode
         $data = is_file($string) ?
             file_get_contents($string) :
             $string;
-        return (array)self::decodeData($data);
+        return self::decodeData($data);
     }
 
     /**
