@@ -7,58 +7,34 @@ namespace pxgamer\Torrent;
  */
 class Torrent
 {
-    /**
-     * Block size
-     */
+    /** Block size */
     public const BLOCK_SIZE = 16384; // 16KB
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $pieceLength;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $pieceLayers;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $files;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $info;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $basePath;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $name;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $pieces;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $fileTree;
-    /**
-     * @var int
-     */
+    /** @var int */
     public $length;
-    /**
-     * @var FileHasher
-     */
+    /** @var FileHasher */
     public $residueHasher;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $data;
 
     /**
-     * Torrent constructor.
+     * Torrent constructor
      *
      * @param int $pieceLength
      * @throws \Exception

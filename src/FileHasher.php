@@ -7,37 +7,24 @@ namespace pxgamer\Torrent;
  */
 class FileHasher
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     public $length;
-    /**
-     * @var resource
-     */
+    /** @var resource */
     public $padHasher;
-    /**
-     * @var int
-     */
+    /** @var int */
     public $padLength;
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     public $root;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $v1Pieces;
-    /**
-     * @var array
-     */
+    /** @var array */
     public $v2Pieces;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $path;
 
     /**
-     * FileHasher constructor.
+     * FileHasher constructor
+     *
      * @param string $path
      * @param int    $pieceLength
      * @throws \Exception
