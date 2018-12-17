@@ -70,7 +70,7 @@ class Torrent
 
         $this->piece_length = $piece_length;
         $this->piece_layers = []; // v2 piece hashes
-        $this->pieces = []; //v1 piece hashes
+        $this->pieces = []; // v1 piece hashes
         $this->files = [];
         $this->info = [];
     }

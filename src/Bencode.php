@@ -159,7 +159,7 @@ class Bencode
      */
     private static function decodeString(& $data): string
     {
-        if (self::char($data) === '0' && substr($data, 1, 1) !== ':') {
+        if (self::char($data) === '0' && $data[1] ?? null !== ':') {
             throw new BencodeException(BencodeException::STRING_LEADING_ZERO);
         }
         if (!$colon = @strpos($data, ':')) {
@@ -189,7 +189,7 @@ class Bencode
         if (self::char($data) === '-') {
             $start++;
         }
-        if (substr($data, $start, 1) == '0' && $end > $start + 1) {
+        if ($end > $start + 1 && $data[$start] ?? null === '0') {
             throw new BencodeException(BencodeException::INT_LEADING_ZERO);
         }
         if (!ctype_digit(substr($data, $start, $start ? $end - 1 : $end))) {
@@ -222,6 +222,6 @@ class Bencode
     {
         return empty($data) ?
             false :
-            substr($data, 0, 1);
+            $data[0] ?? null;
     }
 }
