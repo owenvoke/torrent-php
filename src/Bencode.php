@@ -13,7 +13,7 @@ class Bencode
      * @param mixed $mixed data to encode
      * @return string torrent encoded data
      */
-    public static function encode($mixed)
+    public static function encode($mixed): ?string
     {
         switch (gettype($mixed)) {
             case 'integer':
@@ -34,7 +34,7 @@ class Bencode
      * @param string string to encode
      * @return string encoded string
      */
-    private static function encodeString($string)
+    private static function encodeString($string): string
     {
         return strlen($string).':'.$string;
     }
@@ -43,7 +43,7 @@ class Bencode
      * @param integer integer to encode
      * @return string encoded integer
      */
-    private static function encodeInteger($integer)
+    private static function encodeInteger($integer): string
     {
         return 'i'.$integer.'e';
     }
@@ -52,7 +52,7 @@ class Bencode
      * @param array array to encode
      * @return string encoded dictionary or list
      */
-    private static function encodeArray($array)
+    private static function encodeArray($array): string
     {
         if (self::isList($array)) {
             $return = 'l';
@@ -109,7 +109,7 @@ class Bencode
      * @return array decoded dictionary
      * @throws BencodeException
      */
-    private static function decodeDictionary(& $data)
+    private static function decodeDictionary(& $data): array
     {
         $dictionary = [];
         $previous = null;
@@ -139,7 +139,7 @@ class Bencode
      * @return array decoded list
      * @throws BencodeException
      */
-    private static function decodeList(& $data)
+    private static function decodeList(& $data): array
     {
         $list = [];
         while (($char = self::char($data)) != 'e') {
@@ -157,7 +157,7 @@ class Bencode
      * @return string decoded string
      * @throws BencodeException
      */
-    private static function decodeString(& $data)
+    private static function decodeString(& $data): string
     {
         if (self::char($data) === '0' && substr($data, 1, 1) != ':') {
             throw new BencodeException(BencodeException::STRING_LEADING_ZERO);
@@ -179,7 +179,7 @@ class Bencode
      * @return integer decoded integer
      * @throws BencodeException
      */
-    private static function decodeInteger(& $data)
+    private static function decodeInteger(& $data): int
     {
         $start = 0;
         $end = strpos($data, 'e');
@@ -204,7 +204,7 @@ class Bencode
      * @param array $array
      * @return bool
      */
-    protected static function isList($array)
+    protected static function isList($array): bool
     {
         foreach (array_keys($array) as $key) {
             if (!is_int($key)) {

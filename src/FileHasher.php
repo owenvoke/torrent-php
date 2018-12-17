@@ -132,7 +132,7 @@ class FileHasher
         assert(count($hashes) & (count($hashes) - 1) == 0);
         while (count($hashes) > 1) {
             foreach ($hashes as $l => $r) {
-                $hashes[] = hash('sha256', $l . $r);
+                $hashes[] = hash('sha256', $l.$r);
             }
         }
 
@@ -144,7 +144,7 @@ class FileHasher
      *
      * @return string
      */
-    public function appendPadding()
+    public function appendPadding(): string
     {
         hash_update($this->padHasher, $this->padLength);
         $pad_hash_tmp = hash_copy($this->padHasher);
@@ -157,7 +157,7 @@ class FileHasher
      *
      * @return string
      */
-    public function discardPadding()
+    public function discardPadding(): string
     {
         return hash_final($this->padHasher);
     }

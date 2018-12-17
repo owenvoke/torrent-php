@@ -79,14 +79,14 @@ class Torrent
      * @param string $path
      * @throws \Exception
      */
-    public function prepare($path)
+    public function prepare($path): void
     {
         $this->base_path = realpath($path);
         $this->name = basename($path);
 
         if (is_file($this->base_path)) {
             $this->file_tree = [
-                $this->name => $this->walkPath($this->base_path)
+                $this->name => $this->walkPath($this->base_path),
             ];
 
             $this->files = [];
@@ -99,12 +99,12 @@ class Torrent
             if (count($this->files) > 1) {
                 $this->pieces[] = $this->residue_hasher->appendPadding();
                 $this->files[] = [
-                    'attr'   => 'p',
+                    'attr' => 'p',
                     'length' => $this->residue_hasher->padLength,
-                    'path'   => [
+                    'path' => [
                         '.pad',
-                        (string)$this->residue_hasher->padLength
-                    ]
+                        (string)$this->residue_hasher->padLength,
+                    ],
                 ];
             } else {
                 $this->pieces[] = $this->residue_hasher->discardPadding();
@@ -126,7 +126,7 @@ class Torrent
      * @return string
      * @throws \Exception
      */
-    public function infoHashV2()
+    public function infoHashV2(): string
     {
         return hash('sha256', Bencode::encode($this->info));
     }
@@ -137,7 +137,7 @@ class Torrent
      * @return string
      * @throws \Exception
      */
-    public function infoHashV1()
+    public function infoHashV1(): string
     {
         return hash('sha1', Bencode::encode($this->info));
     }
@@ -149,18 +149,18 @@ class Torrent
      * @return array
      * @throws \Exception
      */
-    private function walkPath($path)
+    private function walkPath($path): array
     {
         if (file_exists($path)) {
             try {
                 $this->pieces[] = $this->residue_hasher->appendPadding();
                 $this->files[] = [
-                    'attr'   => 'p',
+                    'attr' => 'p',
                     'length' => $this->residue_hasher->padLength,
-                    'path'   => [
+                    'path' => [
                         '.pad',
-                        (string)$this->residue_hasher->padLength
-                    ]
+                        (string)$this->residue_hasher->padLength,
+                    ],
                 ];
 
                 unset($this->residue_hasher);
@@ -173,21 +173,21 @@ class Torrent
             $this->pieces = array_merge($this->pieces, $hashes->piecesv1);
             $this->files[] = [
                 'length' => $hashes->length,
-                'path'   => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path)))
+                'path' => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path))),
             ];
 
             if ($hashes->length == 0) {
                 return [
                     '' => [
-                        'length' => $hashes->length
-                    ]
+                        'length' => $hashes->length,
+                    ],
                 ];
             } else {
                 return [
                     '' => [
-                        'length'      => $hashes->length,
-                        'pieces root' => pack('H*', $hashes->root)
-                    ]
+                        'length' => $hashes->length,
+                        'pieces root' => pack('H*', $hashes->root),
+                    ],
                 ];
             }
         }
@@ -220,12 +220,12 @@ class Torrent
      * @param bool   $hybrid
      * @return array
      */
-    public function create($tracker, $hybrid = true)
+    public function create($tracker, $hybrid = true): array
     {
         $info = [
-            'name'         => $this->name,
+            'name' => $this->name,
             'piece length' => $this->piece_length,
-            'file tree'    => $this->file_tree,
+            'file tree' => $this->file_tree,
             'meta version' => 2,
         ];
 
@@ -249,9 +249,9 @@ class Torrent
         }
 
         return $this->data = [
-            'announce'     => $tracker,
-            'info'         => $info,
-            'piece layers' => $layers
+            'announce' => $tracker,
+            'info' => $info,
+            'piece layers' => $layers,
         ];
     }
 
@@ -266,7 +266,7 @@ class Torrent
     {
         return file_put_contents(
             is_null($filename) ?
-                $this->info['name'] . '.torrent' :
+                $this->info['name'].'.torrent' :
                 $filename,
             Bencode::encode($this->data)
         );
