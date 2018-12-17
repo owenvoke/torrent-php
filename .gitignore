@@ -1,3 +1,7 @@
-build
-composer.lock
-vendor
+/build
+/composer.lock
+/vendor
+/phpcs.xml
+/phpunit.xml
+/bin/torrent.phar
+/bin/torrent.phar.sig
