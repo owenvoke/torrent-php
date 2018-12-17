@@ -25,27 +25,17 @@ _Please note, this is still a work-in-progress, and is by no means usable at the
 
 In future, this will be a standalone library, the CLI will be distributed separately.
 
-1. Clone the repository using `git clone git@github.com:pxgamer/torrent-v2`
-2. Run `composer install` in the directory
-
-#### List available commands
+**List available commands**
 
 ```bash
 torrent
 ```
 
-#### Create a torrent file for a file or directory
+**Create a torrent file for a file or directory**
 
 ```bash
-torrent create {file/directory}
+torrent create [file_or_directory]
 ```
-
-#### List arguments and options for the `torrent create` command
-
-```bash
-torrent create --help
-```  
-
 
 ## Change log
 
