@@ -34,7 +34,7 @@ torrent
 **Create a torrent file for a file or directory**
 
 ```bash
-torrent create [file_or_directory]
+torrent create 'file_or_directory'
 ```
 
 ## Change log
