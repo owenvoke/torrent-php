@@ -9,15 +9,6 @@
 
 A set of torrent management classes with support for Torrent v2.
 
-## Structure
-
-```
-bin/
-src/
-tests/
-vendor/
-```
-
 ## Install
 
 Via Composer
