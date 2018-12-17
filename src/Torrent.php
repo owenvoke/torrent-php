@@ -15,11 +15,11 @@ class Torrent
     /**
      * @var int
      */
-    public $piece_length;
+    public $pieceLength;
     /**
      * @var array
      */
-    public $piece_layers;
+    public $pieceLayers;
     /**
      * @var array
      */
@@ -31,7 +31,7 @@ class Torrent
     /**
      * @var string
      */
-    public $base_path;
+    public $basePath;
     /**
      * @var string
      */
@@ -43,7 +43,7 @@ class Torrent
     /**
      * @var array
      */
-    public $file_tree;
+    public $fileTree;
     /**
      * @var int
      */
@@ -51,7 +51,7 @@ class Torrent
     /**
      * @var FileHasher
      */
-    public $residue_hasher;
+    public $residueHasher;
     /**
      * @var array
      */
@@ -60,16 +60,16 @@ class Torrent
     /**
      * Torrent constructor.
      *
-     * @param int $piece_length
+     * @param int $pieceLength
      * @throws \Exception
      */
-    public function __construct($piece_length)
+    public function __construct($pieceLength)
     {
-        assert($piece_length >= self::BLOCK_SIZE, new \Exception);
-        assert($piece_length, new \Exception);
+        assert($pieceLength >= self::BLOCK_SIZE, new \Exception);
+        assert($pieceLength, new \Exception);
 
-        $this->piece_length = $piece_length;
-        $this->piece_layers = []; // v2 piece hashes
+        $this->pieceLength = $pieceLength;
+        $this->pieceLayers = []; // v2 piece hashes
         $this->pieces = []; // v1 piece hashes
         $this->files = [];
         $this->info = [];
@@ -81,43 +81,43 @@ class Torrent
      */
     public function prepare($path): void
     {
-        $this->base_path = realpath($path);
+        $this->basePath = realpath($path);
         $this->name = basename($path);
 
-        if (is_file($this->base_path)) {
-            $this->file_tree = [
-                $this->name => $this->walkPath($this->base_path),
+        if (is_file($this->basePath)) {
+            $this->fileTree = [
+                $this->name => $this->walkPath($this->basePath),
             ];
 
             $this->files = [];
-            $this->length = $this->file_tree[$this->name]['']['length'];
+            $this->length = $this->fileTree[$this->name]['']['length'];
         } else {
-            $this->file_tree = $this->walkPath($this->base_path);
+            $this->fileTree = $this->walkPath($this->basePath);
         }
 
         try {
             if (count($this->files) > 1) {
-                $this->pieces[] = $this->residue_hasher->appendPadding();
+                $this->pieces[] = $this->residueHasher->appendPadding();
                 $this->files[] = [
                     'attr' => 'p',
-                    'length' => $this->residue_hasher->padLength,
+                    'length' => $this->residueHasher->padLength,
                     'path' => [
                         '.pad',
-                        (string)$this->residue_hasher->padLength,
+                        (string)$this->residueHasher->padLength,
                     ],
                 ];
             } else {
-                $this->pieces[] = $this->residue_hasher->discardPadding();
+                $this->pieces[] = $this->residueHasher->discardPadding();
             }
 
-            $this->residue_hasher = null;
+            $this->residueHasher = null;
         } catch (\Exception $e) {
         }
 
         // Flatten the piece hashes into a single bytes object
         $this->pieces = '';
 
-        $this->base_path = null;
+        $this->basePath = null;
     }
 
     /**
@@ -153,27 +153,27 @@ class Torrent
     {
         if (file_exists($path)) {
             try {
-                $this->pieces[] = $this->residue_hasher->appendPadding();
+                $this->pieces[] = $this->residueHasher->appendPadding();
                 $this->files[] = [
                     'attr' => 'p',
-                    'length' => $this->residue_hasher->padLength,
+                    'length' => $this->residueHasher->padLength,
                     'path' => [
                         '.pad',
-                        (string)$this->residue_hasher->padLength,
+                        (string)$this->residueHasher->padLength,
                     ],
                 ];
 
-                unset($this->residue_hasher);
+                unset($this->residueHasher);
             } catch (\Error $e) {
             }
 
-            $hashes = new FileHasher($path, $this->piece_length);
-            $this->residue_hasher = $hashes;
-            $this->piece_layers[] = $hashes;
-            $this->pieces = array_merge($this->pieces, $hashes->piecesv1);
+            $hashes = new FileHasher($path, $this->pieceLength);
+            $this->residueHasher = $hashes;
+            $this->pieceLayers[] = $hashes;
+            $this->pieces = array_merge($this->pieces, $hashes->v1Pieces);
             $this->files[] = [
                 'length' => $hashes->length,
-                'path' => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path))),
+                'path' => explode(DIRECTORY_SEPARATOR, substr($this->basePath, strlen($path))),
             ];
 
             if ($hashes->length === 0) {
@@ -224,8 +224,8 @@ class Torrent
     {
         $info = [
             'name' => $this->name,
-            'piece length' => $this->piece_length,
-            'file tree' => $this->file_tree,
+            'piece length' => $this->pieceLength,
+            'file tree' => $this->fileTree,
             'meta version' => 2,
         ];
 
@@ -242,8 +242,8 @@ class Torrent
         $this->info = $info;
 
         $layers = [];
-        foreach ($this->piece_layers as $f) {
-            if ($f->length > $this->piece_length) {
+        foreach ($this->pieceLayers as $f) {
+            if ($f->length > $this->pieceLength) {
                 $layers[$f->root] = $f->piecesv2;
             }
         }
