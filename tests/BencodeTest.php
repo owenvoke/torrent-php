@@ -10,10 +10,8 @@ use pxgamer\Torrent\Exceptions\BencodeException;
  */
 class BencodeTest extends TestCase
 {
-    /**
-     *
-     */
-    public function testCanEncodeString()
+    /** @test */
+    public function canEncodeString(): void
     {
         $data = 'test';
 
@@ -22,10 +20,8 @@ class BencodeTest extends TestCase
         $this->assertEquals('4:test', $result);
     }
 
-    /**
-     *
-     */
-    public function testCanEncodeInt()
+    /** @test */
+    public function canEncodeInt(): void
     {
         $data = 10;
 
@@ -34,13 +30,11 @@ class BencodeTest extends TestCase
         $this->assertEquals('i10e', $result);
     }
 
-    /**
-     *
-     */
-    public function testCanEncodeArray()
+    /** @test */
+    public function canEncodeArray(): void
     {
         $data = [
-            'test'
+            'test',
         ];
 
         $result = Bencode::encode($data);
@@ -48,10 +42,8 @@ class BencodeTest extends TestCase
         $this->assertEquals('l4:teste', $result);
     }
 
-    /**
-     *
-     */
-    public function testCanEncodeObject()
+    /** @test */
+    public function canEncodeObject(): void
     {
         $data = new \stdClass();
         $data->test = 1;
@@ -62,9 +54,10 @@ class BencodeTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testCanDecodeString()
+    public function canDecodeString(): void
     {
         $data = '4:test';
 
@@ -74,9 +67,10 @@ class BencodeTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testCanDecodeInt()
+    public function canDecodeInt(): void
     {
         $data = 'i10e';
 
@@ -86,9 +80,10 @@ class BencodeTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testCanDecodeArray()
+    public function canDecodeArray(): void
     {
         $data = 'l4:teste';
 
@@ -98,14 +93,15 @@ class BencodeTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testCanDecodeObject()
+    public function canDecodeObject(): void
     {
         $data = 'd4:testi1ee';
 
         $result = Bencode::decode($data);
 
-        $this->assertEquals(['test'=>1], $result);
+        $this->assertEquals(['test' => 1], $result);
     }
 }

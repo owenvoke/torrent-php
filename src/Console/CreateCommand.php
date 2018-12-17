@@ -38,7 +38,8 @@ final class CreateCommand extends Command
                 'Don\'t generate v1 compatibility keys'
             )
             ->addOption(
-                'tracker', 't',
+                'tracker',
+                't',
                 InputOption::VALUE_REQUIRED,
                 'The main announce tracker.',
                 'http://example.com/announce'

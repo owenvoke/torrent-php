@@ -11,9 +11,10 @@ use pxgamer\Torrent\Exceptions\BencodeException;
 class BencodeExceptionTest extends TestCase
 {
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testStringDecodeThrowsExceptionOnInvalidLength()
+    public function stringDecodeThrowsExceptionOnInvalidLength(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::STRING_LEADING_ZERO);
@@ -24,9 +25,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testStringDecodeThrowsExceptionOnColonNotFound()
+    public function stringDecodeThrowsExceptionOnColonNotFound(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::STRING_COLON_NOT_FOUND);
@@ -37,9 +39,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testStringDecodeThrowsExceptionOnInputTooShort()
+    public function stringDecodeThrowsExceptionOnInputTooShort(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::STRING_INPUT_TOO_SHORT);
@@ -50,9 +53,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testIntDecodeThrowsExceptionOnEmpty()
+    public function intDecodeThrowsExceptionOnEmpty(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::INT_IS_EMPTY);
@@ -63,9 +67,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testIntDecodeThrowsExceptionOnLeadingZero()
+    public function intDecodeThrowsExceptionOnLeadingZero(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::INT_LEADING_ZERO);
@@ -76,9 +81,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testIntDecodeThrowsExceptionOnNonDigitCharacters()
+    public function intDecodeThrowsExceptionOnNonDigitCharacters(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::INT_NON_DIGIT_CHARS);
@@ -89,9 +95,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testArrayDecodeThrowsExceptionOnUnterminatedList()
+    public function arrayDecodeThrowsExceptionOnUnterminatedList(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::LIST_UNTERMINATED);
@@ -102,9 +109,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testObjectDecodeThrowsExceptionOnMisSortedKeys()
+    public function objectDecodeThrowsExceptionOnMisSortedKeys(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::DICTIONARY_MIS_SORTED_KEYS);
@@ -115,9 +123,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testObjectDecodeThrowsExceptionOnDuplicateKeys()
+    public function objectDecodeThrowsExceptionOnDuplicateKeys(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::DICTIONARY_DUPLICATE_KEY);
@@ -128,9 +137,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testObjectDecodeThrowsExceptionOnInvalidKeys()
+    public function objectDecodeThrowsExceptionOnInvalidKeys(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::DICTIONARY_INVALID_KEY);
@@ -141,9 +151,10 @@ class BencodeExceptionTest extends TestCase
     }
 
     /**
+     * @test
      * @throws BencodeException
      */
-    public function testObjectDecodeThrowsExceptionOnUnterminatedDictionary()
+    public function objectDecodeThrowsExceptionOnUnterminatedDictionary(): void
     {
         $this->expectException(BencodeException::class);
         $this->expectExceptionMessage(BencodeException::DICTIONARY_UNTERMINATED);
