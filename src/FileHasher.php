@@ -42,7 +42,7 @@ class FileHasher
      * @param int    $pieceLength
      * @throws \Exception
      */
-    public function __construct($path, $pieceLength)
+    public function __construct(string $path, int $pieceLength)
     {
         $this->path = $path;
         $this->length = 0;
@@ -128,7 +128,7 @@ class FileHasher
      * @param array $hashes
      * @return mixed
      */
-    public static function rootHash($hashes)
+    public static function rootHash(array $hashes)
     {
         assert(count($hashes) & (count($hashes) - 1) === 0);
         while (count($hashes) > 1) {

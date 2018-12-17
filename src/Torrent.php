@@ -63,7 +63,7 @@ class Torrent
      * @param int $pieceLength
      * @throws \Exception
      */
-    public function __construct($pieceLength)
+    public function __construct(int $pieceLength)
     {
         assert($pieceLength >= self::BLOCK_SIZE, new \Exception);
         assert($pieceLength, new \Exception);
@@ -79,7 +79,7 @@ class Torrent
      * @param string $path
      * @throws \Exception
      */
-    public function prepare($path): void
+    public function prepare(string $path): void
     {
         $this->basePath = realpath($path);
         $this->name = basename($path);
@@ -149,7 +149,7 @@ class Torrent
      * @return array
      * @throws \Exception
      */
-    private function walkPath($path): array
+    private function walkPath(string $path): array
     {
         if (file_exists($path)) {
             try {
@@ -220,7 +220,7 @@ class Torrent
      * @param bool   $hybrid
      * @return array
      */
-    public function create($tracker, $hybrid = true): array
+    public function create(string $tracker, bool $hybrid = true): array
     {
         $info = [
             'name' => $this->name,
@@ -262,7 +262,7 @@ class Torrent
      * @return bool|int
      * @throws \Exception
      */
-    public function save($filename = null)
+    public function save(?string $filename = null)
     {
         return file_put_contents(
             $filename ?? $this->info['name'].'.torrent',
