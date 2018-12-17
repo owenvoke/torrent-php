@@ -3,6 +3,9 @@
     "type": "library",
     "description": "A set of torrent management classes with support for Torrent v2.",
     "license": "MIT",
+    "bin": [
+        "bin/torrent"
+    ],
     "require": {
         "php": "^7.3",
         "symfony/console": "^4.0"
@@ -26,7 +29,7 @@
         "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
         "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
     },
-    "bin": [
-        "bin/torrent"
-    ]
+    "config": {
+        "sort-packages": true
+    }
 }
