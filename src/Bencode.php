@@ -63,7 +63,7 @@ class Bencode
             ksort($array, SORT_STRING);
             $return = 'd';
             foreach ($array as $key => $value) {
-                $return .= self::encode(strval($key)).self::encode($value);
+                $return .= self::encode((string)$key).self::encode($value);
             }
         }
         return $return.'e';
@@ -113,7 +113,7 @@ class Bencode
     {
         $dictionary = [];
         $previous = null;
-        while (($char = self::char($data)) != 'e') {
+        while (($char = self::char($data)) !== 'e') {
             if ($char === false) {
                 throw new BencodeException(BencodeException::DICTIONARY_UNTERMINATED);
             }
@@ -142,7 +142,7 @@ class Bencode
     private static function decodeList(& $data): array
     {
         $list = [];
-        while (($char = self::char($data)) != 'e') {
+        while (($char = self::char($data)) !== 'e') {
             if ($char === false) {
                 throw new BencodeException(BencodeException::LIST_UNTERMINATED);
             }
@@ -159,13 +159,13 @@ class Bencode
      */
     private static function decodeString(& $data): string
     {
-        if (self::char($data) === '0' && substr($data, 1, 1) != ':') {
+        if (self::char($data) === '0' && substr($data, 1, 1) !== ':') {
             throw new BencodeException(BencodeException::STRING_LEADING_ZERO);
         }
         if (!$colon = @strpos($data, ':')) {
             throw new BencodeException(BencodeException::STRING_COLON_NOT_FOUND);
         }
-        $length = intval(substr($data, 0, $colon));
+        $length = (int)substr($data, 0, $colon);
         if ($length + $colon + 1 > strlen($data)) {
             throw new BencodeException(BencodeException::STRING_INPUT_TOO_SHORT);
         }
@@ -186,7 +186,7 @@ class Bencode
         if ($end === 0) {
             throw new BencodeException(BencodeException::INT_IS_EMPTY);
         }
-        if (self::char($data) == '-') {
+        if (self::char($data) === '-') {
             $start++;
         }
         if (substr($data, $start, 1) == '0' && $end > $start + 1) {

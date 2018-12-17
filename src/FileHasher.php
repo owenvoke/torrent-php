@@ -59,7 +59,7 @@ class FileHasher
             $v1hasher = hash_init('sha1');
 
             $block = $file->fread(Torrent::BLOCK_SIZE);
-            if (strlen($block) == 0) {
+            if ($block === '') {
                 break;
             }
 
@@ -68,15 +68,15 @@ class FileHasher
             $blocks[] = hash('sha256', $block);
             hash_update($v1hasher, $block);
 
-            if (count($blocks) == 0) {
+            if (count($blocks) === 0) {
                 break;
             }
 
-            if (count($blocks) != $blocks_per_piece) {
+            if (count($blocks) !== $blocks_per_piece) {
                 // If the file is smaller than one piece then the block hashes
                 // should be padded to the next power of two instead of the next
                 // piece boundary.
-                $leaves_required = count($this->piecesv2) == 0 ? 1 << count($blocks) - 1 : $blocks_per_piece;
+                $leaves_required = count($this->piecesv2) === 0 ? 1 << count($blocks) - 1 : $blocks_per_piece;
 
                 $additional = [];
                 for ($i = 0; $i < $leaves_required - count($blocks); $i++) {
@@ -117,7 +117,8 @@ class FileHasher
                 }
                 $layer_hashes = array_merge($tmp_hashes);
             }
-            $this->root = $this->rootHash($layer_hashes);
+
+            $this->root = self::rootHash($layer_hashes);
         }
     }
 
@@ -129,7 +130,7 @@ class FileHasher
      */
     public static function rootHash($hashes)
     {
-        assert(count($hashes) & (count($hashes) - 1) == 0);
+        assert(count($hashes) & (count($hashes) - 1) === 0);
         while (count($hashes) > 1) {
             foreach ($hashes as $l => $r) {
                 $hashes[] = hash('sha256', $l.$r);

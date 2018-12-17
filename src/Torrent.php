@@ -176,20 +176,20 @@ class Torrent
                 'path' => explode(DIRECTORY_SEPARATOR, substr($this->base_path, strlen($path))),
             ];
 
-            if ($hashes->length == 0) {
+            if ($hashes->length === 0) {
                 return [
                     '' => [
                         'length' => $hashes->length,
-                    ],
-                ];
-            } else {
-                return [
-                    '' => [
-                        'length' => $hashes->length,
-                        'pieces root' => pack('H*', $hashes->root),
                     ],
                 ];
             }
+
+            return [
+                '' => [
+                    'length' => $hashes->length,
+                    'pieces root' => pack('H*', $hashes->root),
+                ],
+            ];
         }
 
         if (is_dir($path)) {
@@ -265,9 +265,7 @@ class Torrent
     public function save($filename = null)
     {
         return file_put_contents(
-            is_null($filename) ?
-                $this->info['name'].'.torrent' :
-                $filename,
+            $filename ?? $this->info['name'].'.torrent',
             Bencode::encode($this->data)
         );
     }
