@@ -13,7 +13,7 @@ A set of torrent management classes with support for Torrent v2.
 
 Via Composer
 
-``` bash
+```bash
 $ composer require pxgamer/torrent-v2
 ```
 
@@ -25,7 +25,7 @@ _Please note, this is still a work-in-progress, and is by no means usable at the
 
 In future, this will be a standalone library, the CLI will be distributed separately.
 
-1. Clone the repository using `git clone https://github.com/pxgamer/torrent-v2`
+1. Clone the repository using `git clone git@github.com:pxgamer/torrent-v2`
 2. Run `composer install` in the directory
 
 #### List available commands
@@ -53,17 +53,17 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Testing
 
-``` bash
+```bash
 $ composer test
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) and [CODE_OF_CONDUCT](.github/CODE_OF_CONDUCT.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email owzie123@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email security@pxgamer.xyz instead of using the issue tracker.
 
 ## Credits
 
