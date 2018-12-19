@@ -41,6 +41,7 @@ final class Application extends BaseApplication
         $commands = parent::getDefaultCommands();
 
         $commands[] = new CreateCommand();
+        $commands[] = new InfoCommand();
 
         return $commands;
     }
