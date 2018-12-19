@@ -54,10 +54,12 @@ final class CreateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        if (is_dir($input->getArgument('path')) || file_exists($input->getArgument('path'))) {
+        $path = $input->getArgument('path');
+
+        if (is_dir($path) || file_exists($path)) {
             $torrent = new Torrent($input->getOption('piece-length'));
 
-            $torrent->prepare($input->getArgument('path'));
+            $torrent->prepare($path);
 
             $torrent->create(
                 $input->getOption('tracker'),
