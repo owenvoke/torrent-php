@@ -41,8 +41,8 @@ class Torrent
      */
     public function __construct(int $pieceLength)
     {
-        assert($pieceLength >= self::BLOCK_SIZE, new \Exception);
-        assert($pieceLength, new \Exception);
+        assert($pieceLength >= self::BLOCK_SIZE, new \Exception());
+        assert($pieceLength, new \Exception());
 
         $this->pieceLength = $pieceLength;
         $this->pieceLayers = []; // v2 piece hashes
