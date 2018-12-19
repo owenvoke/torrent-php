@@ -18,11 +18,11 @@ final class CreateCommand extends Command
     {
         $this
             ->setName('create')
-            ->setDescription('Create a new .torrent file from a specified file.')
+            ->setDescription('Create a new .torrent file from a specified file')
             ->addArgument(
                 'path',
                 InputArgument::REQUIRED,
-                'The directory or file to create a .torrent for.'
+                'The directory or file to create a .torrent for'
             )
             ->addOption(
                 'piece-length',
@@ -41,7 +41,7 @@ final class CreateCommand extends Command
                 'tracker',
                 't',
                 InputOption::VALUE_REQUIRED,
-                'The main announce tracker.',
+                'The main announce tracker',
                 'http://example.com/announce'
             );
     }
