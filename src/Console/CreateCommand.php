@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class BalanceCommand
+ * Class CreateCommand
  */
 final class CreateCommand extends Command
 {
