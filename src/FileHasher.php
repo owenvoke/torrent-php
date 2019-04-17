@@ -5,7 +5,7 @@ namespace pxgamer\Torrent;
 /**
  * Class FileHasher
  */
-class FileHasher
+final class FileHasher
 {
     /** @var int */
     public $length;

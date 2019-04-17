@@ -7,7 +7,7 @@ use pxgamer\Torrent\Exceptions\BencodeException;
 /**
  * Class Bencode
  */
-class Bencode
+final class Bencode
 {
     /**
      * @param mixed $mixed data to encode
