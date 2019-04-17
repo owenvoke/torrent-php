@@ -5,9 +5,6 @@ namespace pxgamer\Torrent\Console;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 
-/**
- * Class Application
- */
 final class Application extends BaseApplication
 {
     public const NAME = 'BitTorrent v2 Manager';
@@ -33,9 +30,7 @@ final class Application extends BaseApplication
         );
     }
 
-    /**
-     * @return Command[]
-     */
+    /** @return Command[] */
     protected function getDefaultCommands(): array
     {
         $commands = parent::getDefaultCommands();

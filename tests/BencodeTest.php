@@ -5,9 +5,6 @@ namespace pxgamer\Torrent;
 use PHPUnit\Framework\TestCase;
 use pxgamer\Torrent\Exceptions\BencodeException;
 
-/**
- * Class BencodeTest
- */
 class BencodeTest extends TestCase
 {
     /** @test */

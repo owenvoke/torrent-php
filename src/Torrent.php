@@ -2,12 +2,9 @@
 
 namespace pxgamer\Torrent;
 
-/**
- * Class Torrent
- */
 final class Torrent
 {
-    /** Block size */
+    /** @var int */
     public const BLOCK_SIZE = 16384; // 16KB
 
     /** @var int */

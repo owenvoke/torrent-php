@@ -2,9 +2,6 @@
 
 namespace pxgamer\Torrent\Exceptions;
 
-/**
- * Class BencodeException
- */
 class BencodeException extends \Exception
 {
     public const STRING_LEADING_ZERO = 'Invalid string length, leading zero.';

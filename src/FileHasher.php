@@ -2,9 +2,6 @@
 
 namespace pxgamer\Torrent;
 
-/**
- * Class FileHasher
- */
 final class FileHasher
 {
     /** @var int */

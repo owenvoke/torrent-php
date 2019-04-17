@@ -4,9 +4,6 @@ namespace pxgamer\Torrent;
 
 use pxgamer\Torrent\Exceptions\BencodeException;
 
-/**
- * Class Bencode
- */
 final class Bencode
 {
     /**
