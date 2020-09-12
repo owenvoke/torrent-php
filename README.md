@@ -74,17 +74,17 @@ You can buy trees [here][link-treeware-gifting].
 
 Read more about Treeware at [treeware.earth][link-treeware].
 
-[ico-version]: https://img.shields.io/packagist/v/owenvoke/skeleton-php.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/owenvoke/torrent.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-github-actions]: https://img.shields.io/github/workflow/status/owenvoke/skeleton-php/Tests.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/:styleci/shield
-[ico-downloads]: https://img.shields.io/packagist/dt/owenvoke/skeleton-php.svg?style=flat-square
+[ico-github-actions]: https://img.shields.io/github/workflow/status/owenvoke/torrent/Tests.svg?style=flat-square
+[ico-styleci]: https://styleci.io/repos/104362826/shield
+[ico-downloads]: https://img.shields.io/packagist/dt/owenvoke/torrent.svg?style=flat-square
 [ico-treeware-gifting]: https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/owenvoke/skeleton-php
-[link-github-actions]: https://github.com/owenvoke/skeleton-php/actions
-[link-styleci]: https://styleci.io/repos/:styleci
-[link-downloads]: https://packagist.org/packages/owenvoke/skeleton-php
+[link-packagist]: https://packagist.org/packages/owenvoke/torrent
+[link-github-actions]: https://github.com/owenvoke/torrent/actions
+[link-styleci]: https://styleci.io/repos/104362826
+[link-downloads]: https://packagist.org/packages/owenvoke/torrent
 [link-treeware]: https://treeware.earth
 [link-treeware-gifting]: https://ecologi.com/owenvoke?gift-trees
 [link-author]: https://github.com/owenvoke
