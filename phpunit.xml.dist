@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         backupGlobals="false"
+<phpunit backupGlobals="false"
          backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
          colors="true"
          verbose="true"
          convertErrorsToExceptions="true"
@@ -11,12 +11,12 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Test Suite">
-            <directory>tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">src/</directory>
+            <directory suffix=".php">src</directory>
         </include>
     </coverage>
 </phpunit>
