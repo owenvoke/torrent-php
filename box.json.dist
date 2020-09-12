@@ -1,8 +1,0 @@
-{
-    "git-tag": "git-version",
-    "compression": "GZ",
-    "compactors": [
-        "KevinGH\\Box\\Compactor\\Php",
-        "KevinGH\\Box\\Compactor\\PhpScoper"
-    ]
-}
