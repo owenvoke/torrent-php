@@ -2,8 +2,9 @@
 
 namespace OwenVoke\Torrent;
 
-use Exception;
 use Error;
+use Exception;
+
 final class Torrent
 {
     /** @var int */

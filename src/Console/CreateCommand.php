@@ -16,6 +16,7 @@ final class CreateCommand extends Command
      * @var string
      */
     private const V2_ONLY = 'v2-only';
+
     protected function configure(): void
     {
         $this

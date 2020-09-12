@@ -2,9 +2,10 @@
 
 namespace OwenVoke\Torrent;
 
-use HashContext;
 use Exception;
+use HashContext;
 use SplFileObject;
+
 final class FileHasher
 {
     public int $length;

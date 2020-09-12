@@ -3,6 +3,7 @@
 namespace OwenVoke\Torrent\Exceptions;
 
 use Exception;
+
 /**
  * @see \OwenVoke\Torrent\BencodeExceptionTest
  */

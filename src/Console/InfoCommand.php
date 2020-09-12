@@ -24,6 +24,7 @@ final class InfoCommand extends Command
      * @var string
      */
     private const N_A = 'n/a';
+
     protected function configure(): void
     {
         $this
