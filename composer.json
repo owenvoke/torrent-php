@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OwenVoke\\Torrent\\": "tests"
+            "OwenVoke\\Torrent\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OwenVoke\Torrent;
+namespace OwenVoke\Torrent\Tests;
 
 use OwenVoke\Torrent\Exceptions\BencodeException;
 use PHPUnit\Framework\TestCase;
