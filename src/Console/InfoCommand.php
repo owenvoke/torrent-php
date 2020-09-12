@@ -40,11 +40,13 @@ final class InfoCommand extends Command
                 $decodedData = Bencode::decode($torrentData);
             } catch (BencodeException $exception) {
                 $output->writeln('<fg=red>ERROR: '.$exception->getMessage().'</>');
+
                 return;
             }
 
             if ($decodedData) {
                 $output->writeln($this->formatDetails($decodedData));
+
                 return;
             }
         }

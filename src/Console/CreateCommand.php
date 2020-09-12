@@ -60,12 +60,12 @@ final class CreateCommand extends Command
 
             $torrent->create(
                 $input->getOption('tracker'),
-                !$input->getOption('v2-only')
+                ! $input->getOption('v2-only')
             );
 
             $torrent->save();
 
-            if (!$input->getOption('v2-only')) {
+            if (! $input->getOption('v2-only')) {
                 $output->writeln('v1 Info Hash: '.$torrent->infoHashV1());
             }
 

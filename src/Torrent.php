@@ -31,7 +31,7 @@ final class Torrent
     public $data;
 
     /**
-     * Torrent constructor
+     * Torrent constructor.
      *
      * @param int $pieceLength
      * @throws \Exception
@@ -76,7 +76,7 @@ final class Torrent
                     'length' => $this->residueHasher->padLength,
                     'path' => [
                         '.pad',
-                        (string)$this->residueHasher->padLength,
+                        (string) $this->residueHasher->padLength,
                     ],
                 ];
             } else {
@@ -94,7 +94,7 @@ final class Torrent
     }
 
     /**
-     * Return the info hash in v2 (SHA256) format
+     * Return the info hash in v2 (SHA256) format.
      *
      * @return string
      * @throws \Exception
@@ -105,7 +105,7 @@ final class Torrent
     }
 
     /**
-     * Return the info hash in v1 (SHA1) format
+     * Return the info hash in v1 (SHA1) format.
      *
      * @return string
      * @throws \Exception
@@ -116,7 +116,7 @@ final class Torrent
     }
 
     /**
-     * Walk through a directory or file and return an object
+     * Walk through a directory or file and return an object.
      *
      * @param string $path
      * @return array
@@ -132,7 +132,7 @@ final class Torrent
                     'length' => $this->residueHasher->padLength,
                     'path' => [
                         '.pad',
-                        (string)$this->residueHasher->padLength,
+                        (string) $this->residueHasher->padLength,
                     ],
                 ];
 
@@ -187,7 +187,7 @@ final class Torrent
     }
 
     /**
-     * Create an object of the v2 metadata
+     * Create an object of the v2 metadata.
      *
      * @param string $tracker
      * @param bool   $hybrid
@@ -229,7 +229,7 @@ final class Torrent
     }
 
     /**
-     * Save the data to a .torrent file
+     * Save the data to a .torrent file.
      *
      * @param null|string $filename
      * @return bool|int

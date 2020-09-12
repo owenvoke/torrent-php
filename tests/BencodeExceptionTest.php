@@ -2,8 +2,8 @@
 
 namespace OwenVoke\Torrent;
 
-use PHPUnit\Framework\TestCase;
 use OwenVoke\Torrent\Exceptions\BencodeException;
+use PHPUnit\Framework\TestCase;
 
 class BencodeExceptionTest extends TestCase
 {

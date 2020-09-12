@@ -20,7 +20,7 @@ final class FileHasher
     public $path;
 
     /**
-     * FileHasher constructor
+     * FileHasher constructor.
      *
      * @param string $path
      * @param int    $pieceLength
@@ -107,7 +107,7 @@ final class FileHasher
     }
 
     /**
-     * Compute the root hash of a Merkle tree with the given list of leaf hashes
+     * Compute the root hash of a Merkle tree with the given list of leaf hashes.
      *
      * @param array $hashes
      * @return mixed
@@ -125,7 +125,7 @@ final class FileHasher
     }
 
     /**
-     * Append data to the hash resource using hash_update()
+     * Append data to the hash resource using hash_update().
      *
      * @return string
      */
@@ -138,7 +138,7 @@ final class FileHasher
     }
 
     /**
-     * Return the final hash and discard the previous hash resource
+     * Return the final hash and discard the previous hash resource.
      *
      * @return string
      */
