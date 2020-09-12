@@ -1,163 +1,71 @@
 <?php
 
-namespace OwenVoke\Torrent\Tests;
-
+use OwenVoke\Torrent\Bencode;
 use OwenVoke\Torrent\Exceptions\BencodeException;
-use PHPUnit\Framework\TestCase;
 
-class BencodeExceptionTest extends TestCase
-{
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function stringDecodeThrowsExceptionOnInvalidLength(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::STRING_LEADING_ZERO);
+it('throws an exception when decoding a string with a leading zero', function () {
+    $data = '00';
 
-        $data = '00';
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::STRING_LEADING_ZERO);
 
-        Bencode::decode($data);
-    }
+it('throws an exception when decoding a string without a colon', function () {
+    $data = '0';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function stringDecodeThrowsExceptionOnColonNotFound(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::STRING_COLON_NOT_FOUND);
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::STRING_COLON_NOT_FOUND);
 
-        $data = '0';
+it('throws an exception when decoding a string that is too short', function () {
+    $data = '1:';
 
-        Bencode::decode($data);
-    }
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::STRING_INPUT_TOO_SHORT);
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function stringDecodeThrowsExceptionOnInputTooShort(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::STRING_INPUT_TOO_SHORT);
 
-        $data = '1:';
+it('throws an exception when decoding an empty string', function () {
+    $data = 'ie';
 
-        Bencode::decode($data);
-    }
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::INT_IS_EMPTY);
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function intDecodeThrowsExceptionOnEmpty(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::INT_IS_EMPTY);
+it('throws an exception when decoding an integer with a leading zero', function () {
+    $data = 'i00e';
 
-        $data = 'ie';
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::INT_LEADING_ZERO);
 
-        Bencode::decode($data);
-    }
+it('throws an exception when decoding an integer with non-digit characters', function () {
+    $data = 'i1a2e';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function intDecodeThrowsExceptionOnLeadingZero(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::INT_LEADING_ZERO);
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::INT_NON_DIGIT_CHARS);
 
-        $data = 'i00e';
+it('throws an exception when decoding an array with an unterminated list', function () {
+    $data = 'l2:-e';
 
-        Bencode::decode($data);
-    }
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::LIST_UNTERMINATED);
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function intDecodeThrowsExceptionOnNonDigitCharacters(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::INT_NON_DIGIT_CHARS);
+it('throws an exception when decoding an object with mis-sorted keys', function () {
+    $data = 'd3:fooi42e3:bar4:spame';
 
-        $data = 'i1a2e';
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::DICTIONARY_MIS_SORTED_KEYS);
 
-        Bencode::decode($data);
-    }
+it('throws an exception when decoding an object with a duplicate key', function () {
+    $data = 'd3:bar4:spam3:bari42ee';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function arrayDecodeThrowsExceptionOnUnterminatedList(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::LIST_UNTERMINATED);
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::DICTIONARY_DUPLICATE_KEY);
 
-        $data = 'l2:-e';
+it('throws an exception when decoding an object with an invalid key', function () {
+    $data = 'd3:br:spam3:fooi42ee';
 
-        Bencode::decode($data);
-    }
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::DICTIONARY_INVALID_KEY);
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function objectDecodeThrowsExceptionOnMisSortedKeys(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::DICTIONARY_MIS_SORTED_KEYS);
+it('throws an exception when decoding an object with an unterminated dictionary', function () {
+    $data = 'd3:bar4:spam3:fooi42e';
 
-        $data = 'd3:fooi42e3:bar4:spame';
-
-        Bencode::decode($data);
-    }
-
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function objectDecodeThrowsExceptionOnDuplicateKeys(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::DICTIONARY_DUPLICATE_KEY);
-
-        $data = 'd3:bar4:spam3:bari42ee';
-
-        Bencode::decode($data);
-    }
-
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function objectDecodeThrowsExceptionOnInvalidKeys(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::DICTIONARY_INVALID_KEY);
-
-        $data = 'd3:br:spam3:fooi42ee';
-
-        Bencode::decode($data);
-    }
-
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function objectDecodeThrowsExceptionOnUnterminatedDictionary(): void
-    {
-        $this->expectException(BencodeException::class);
-        $this->expectExceptionMessage(BencodeException::DICTIONARY_UNTERMINATED);
-
-        $data = 'd3:bar4:spam3:fooi42e';
-
-        Bencode::decode($data);
-    }
-}
+    Bencode::decode($data);
+})->throws(BencodeException::class, BencodeException::DICTIONARY_UNTERMINATED);

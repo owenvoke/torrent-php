@@ -1,104 +1,70 @@
 <?php
 
-namespace OwenVoke\Torrent\Tests;
+use OwenVoke\Torrent\Bencode;
 
-use OwenVoke\Torrent\Exceptions\BencodeException;
-use PHPUnit\Framework\TestCase;
+it('can encode a string', function () {
+    $data = 'test';
 
-class BencodeTest extends TestCase
-{
-    /** @test */
-    public function canEncodeString(): void
-    {
-        $data = 'test';
+    $result = Bencode::encode($data);
 
-        $result = Bencode::encode($data);
+    expect($result)->toEqual('4:test');
+});
 
-        $this->assertEquals('4:test', $result);
-    }
+it('can encode an integer', function () {
+    $data = 10;
 
-    /** @test */
-    public function canEncodeInt(): void
-    {
-        $data = 10;
+    $result = Bencode::encode($data);
 
-        $result = Bencode::encode($data);
+    expect($result)->toEqual('i10e');
+});
 
-        $this->assertEquals('i10e', $result);
-    }
+it('can encode an array', function () {
+    $data = [
+        'test',
+    ];
 
-    /** @test */
-    public function canEncodeArray(): void
-    {
-        $data = [
-            'test',
-        ];
+    $result = Bencode::encode($data);
 
-        $result = Bencode::encode($data);
+    expect($result)->toEqual('l4:teste');
+});
 
-        $this->assertEquals('l4:teste', $result);
-    }
+it('can encode an object', function () {
+    $data = new \stdClass();
+    $data->test = 1;
 
-    /** @test */
-    public function canEncodeObject(): void
-    {
-        $data = new \stdClass();
-        $data->test = 1;
+    $result = Bencode::encode($data);
 
-        $result = Bencode::encode($data);
+    expect($result)->toEqual('d4:testi1ee');
+});
 
-        $this->assertEquals('d4:testi1ee', $result);
-    }
+it('can decode a string', function () {
+    $data = '4:test';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function canDecodeString(): void
-    {
-        $data = '4:test';
+    $result = Bencode::decode($data);
 
-        $result = Bencode::decode($data);
+    expect($result)->toEqual('test');
+});
 
-        $this->assertEquals('test', $result);
-    }
+it('can decode an integer', function () {
+    $data = 'i10e';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function canDecodeInt(): void
-    {
-        $data = 'i10e';
+    $result = Bencode::decode($data);
 
-        $result = Bencode::decode($data);
+    expect($result)->toEqual(10);
+});
 
-        $this->assertEquals(10, $result);
-    }
+it('can decode an array', function () {
+    $data = 'l4:teste';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function canDecodeArray(): void
-    {
-        $data = 'l4:teste';
+    $result = Bencode::decode($data);
 
-        $result = Bencode::decode($data);
+    expect($result)->toEqual(['test']);
+});
 
-        $this->assertEquals(['test'], $result);
-    }
+it('can decode an object', function () {
+    $data = 'd4:testi1ee';
 
-    /**
-     * @test
-     * @throws BencodeException
-     */
-    public function canDecodeObject(): void
-    {
-        $data = 'd4:testi1ee';
+    $result = Bencode::decode($data);
 
-        $result = Bencode::decode($data);
-
-        $this->assertEquals(['test' => 1], $result);
-    }
-}
+    expect($result)->toEqual(['test' => 1]);
+});
