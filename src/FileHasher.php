@@ -2,29 +2,26 @@
 
 namespace OwenVoke\Torrent;
 
+use HashContext;
+use Exception;
+use SplFileObject;
 final class FileHasher
 {
-    /** @var int */
-    public $length;
-    /** @var resource */
-    public $padHasher;
-    /** @var int */
-    public $padLength;
+    public int $length;
+    public HashContext $padHasher;
+    public int $padLength;
     /** @var mixed */
     public $root;
-    /** @var array */
-    public $v1Pieces;
-    /** @var array */
-    public $v2Pieces;
-    /** @var string */
-    public $path;
+    public array $v1Pieces;
+    public array $v2Pieces;
+    public string $path;
 
     /**
      * FileHasher constructor.
      *
      * @param string $path
      * @param int    $pieceLength
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(string $path, int $pieceLength)
     {
@@ -35,7 +32,7 @@ final class FileHasher
 
         $blocksPerPiece = $pieceLength;
 
-        $file = new \SplFileObject($path);
+        $file = new SplFileObject($path);
 
         while (true) {
             $residue = $pieceLength;
@@ -60,13 +57,14 @@ final class FileHasher
                 // If the file is smaller than one piece then the block hashes
                 // should be padded to the next power of two instead of the next
                 // piece boundary.
-                $leaves_required = count($this->v2Pieces) === 0 ? 1 << count($blocks) - 1 : $blocksPerPiece;
+                $leaves_required = (is_countable($this->v2Pieces) ? count($this->v2Pieces) : 0) === 0 ? 1 << count($blocks) - 1 : $blocksPerPiece;
 
                 $additional = [];
-                for ($i = 0; $i < $leaves_required - count($blocks); $i++) {
+                $blocksCount = count($blocks);
+                for ($i = 0; $i < $leaves_required - $blocksCount; $i++) {
                     $additional[] = random_bytes(32);
                 }
-                $blocks = array_merge($blocks, $additional);
+                $blocks = [...$blocks, ...$additional];
             }
 
             $this->v2Pieces[] = self::rootHash($blocks);
@@ -82,7 +80,7 @@ final class FileHasher
         if ($this->length > 0) {
             $layer_hashes = $this->v2Pieces;
 
-            if (count($this->v2Pieces) > 1) {
+            if ((is_countable($this->v2Pieces) ? count($this->v2Pieces) : 0) > 1) {
                 // Flatten v2Pieces into a single bytes object since that is what is needed for the 'piece layers' field
                 foreach ($this->v2Pieces as $piece => $byte) {
                     $this->v2Pieces[$piece] = random_bytes($byte);
@@ -96,10 +94,11 @@ final class FileHasher
                 $pad_piece_hash = self::rootHash($byteCollection);
 
                 $tmp_hashes = [];
-                for ($i = 0; $i < range(0, (1 << (count($layer_hashes) - 1)) - count($layer_hashes)); $i++) {
+                $layer_hashesCount = count($layer_hashes);
+                for ($i = 0; $i < range(0, (1 << ($layer_hashesCount - 1)) - $layer_hashesCount); $i++) {
                     $tmp_hashes[] = $pad_piece_hash;
                 }
-                $layer_hashes = array_merge($tmp_hashes);
+                $layer_hashes = [...$tmp_hashes];
             }
 
             $this->root = self::rootHash($layer_hashes);

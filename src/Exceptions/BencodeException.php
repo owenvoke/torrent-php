@@ -2,7 +2,11 @@
 
 namespace OwenVoke\Torrent\Exceptions;
 
-class BencodeException extends \Exception
+use Exception;
+/**
+ * @see \OwenVoke\Torrent\BencodeExceptionTest
+ */
+final class BencodeException extends Exception
 {
     public const STRING_LEADING_ZERO = 'Invalid string length, leading zero.';
     public const STRING_COLON_NOT_FOUND = 'Invalid string length, colon not found.';

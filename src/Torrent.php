@@ -2,44 +2,48 @@
 
 namespace OwenVoke\Torrent;
 
+use Exception;
+use Error;
 final class Torrent
 {
     /** @var int */
-    public const BLOCK_SIZE = 16384; // 16KB
-
+    public const BLOCK_SIZE = 16_384; // 16KB
+    // 16KB
+    // 16KB
+    // 16KB
     /** @var int */
-    public $pieceLength;
-    /** @var array */
-    public $pieceLayers;
-    /** @var array */
-    public $files;
-    /** @var array */
-    public $info;
+    public int $pieceLength;
+    public array $pieceLayers;
+    public array $files;
+    public array $info;
     /** @var string */
     public $basePath;
-    /** @var string */
-    public $name;
+    public ?string $name = null;
     /** @var array */
     public $pieces;
-    /** @var array */
-    public $fileTree;
-    /** @var int */
-    public $length;
-    /** @var FileHasher */
-    public $residueHasher;
-    /** @var array */
-    public $data;
+    public ?array $fileTree = null;
+    public int $length;
+    public ?FileHasher $residueHasher = null;
+    public ?array $data = null;
+    /**
+     * @var string
+     */
+    private const LENGTH = 'length';
+    /**
+     * @var string
+     */
+    private const PATH = 'path';
 
     /**
      * Torrent constructor.
      *
      * @param int $pieceLength
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(int $pieceLength)
     {
-        assert($pieceLength >= self::BLOCK_SIZE, new \Exception());
-        assert($pieceLength, new \Exception());
+        assert($pieceLength >= self::BLOCK_SIZE, new Exception());
+        assert($pieceLength, new Exception());
 
         $this->pieceLength = $pieceLength;
         $this->pieceLayers = []; // v2 piece hashes
@@ -50,7 +54,7 @@ final class Torrent
 
     /**
      * @param string $path
-     * @throws \Exception
+     * @throws Exception
      */
     public function prepare(string $path): void
     {
@@ -63,18 +67,18 @@ final class Torrent
             ];
 
             $this->files = [];
-            $this->length = $this->fileTree[$this->name]['']['length'];
+            $this->length = $this->fileTree[$this->name][''][self::LENGTH];
         } else {
             $this->fileTree = $this->walkPath($this->basePath);
         }
 
         try {
-            if (count($this->files) > 1) {
+            if ((is_countable($this->files) ? count($this->files) : 0) > 1) {
                 $this->pieces[] = $this->residueHasher->appendPadding();
                 $this->files[] = [
                     'attr' => 'p',
-                    'length' => $this->residueHasher->padLength,
-                    'path' => [
+                    self::LENGTH => $this->residueHasher->padLength,
+                    self::PATH => [
                         '.pad',
                         (string) $this->residueHasher->padLength,
                     ],
@@ -84,7 +88,7 @@ final class Torrent
             }
 
             $this->residueHasher = null;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         // Flatten the piece hashes into a single bytes object
@@ -97,7 +101,7 @@ final class Torrent
      * Return the info hash in v2 (SHA256) format.
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function infoHashV2(): string
     {
@@ -108,7 +112,7 @@ final class Torrent
      * Return the info hash in v1 (SHA1) format.
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function infoHashV1(): string
     {
@@ -120,7 +124,7 @@ final class Torrent
      *
      * @param string $path
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function walkPath(string $path): array
     {
@@ -129,15 +133,15 @@ final class Torrent
                 $this->pieces[] = $this->residueHasher->appendPadding();
                 $this->files[] = [
                     'attr' => 'p',
-                    'length' => $this->residueHasher->padLength,
-                    'path' => [
+                    self::LENGTH => $this->residueHasher->padLength,
+                    self::PATH => [
                         '.pad',
                         (string) $this->residueHasher->padLength,
                     ],
                 ];
 
                 unset($this->residueHasher);
-            } catch (\Error $e) {
+            } catch (Error $e) {
             }
 
             $hashes = new FileHasher($path, $this->pieceLength);
@@ -145,21 +149,21 @@ final class Torrent
             $this->pieceLayers[] = $hashes;
             $this->pieces = array_merge($this->pieces, $hashes->v1Pieces);
             $this->files[] = [
-                'length' => $hashes->length,
-                'path' => explode(DIRECTORY_SEPARATOR, substr($this->basePath, strlen($path))),
+                self::LENGTH => $hashes->length,
+                self::PATH => explode(DIRECTORY_SEPARATOR, substr($this->basePath, strlen($path))),
             ];
 
             if ($hashes->length === 0) {
                 return [
                     '' => [
-                        'length' => $hashes->length,
+                        self::LENGTH => $hashes->length,
                     ],
                 ];
             }
 
             return [
                 '' => [
-                    'length' => $hashes->length,
+                    self::LENGTH => $hashes->length,
                     'pieces root' => pack('H*', $hashes->root),
                 ],
             ];
@@ -183,7 +187,7 @@ final class Torrent
             return $list;
         }
 
-        throw new \Exception('Unsupported dentry type');
+        throw new Exception('Unsupported dentry type');
     }
 
     /**
@@ -207,8 +211,8 @@ final class Torrent
 
             try {
                 $info['files'] = $this->files;
-            } catch (\Exception $e) {
-                $info['length'] = $this->length;
+            } catch (Exception $e) {
+                $info[self::LENGTH] = $this->length;
             }
         }
 
@@ -233,7 +237,7 @@ final class Torrent
      *
      * @param null|string $filename
      * @return bool|int
-     * @throws \Exception
+     * @throws Exception
      */
     public function save(?string $filename = null)
     {

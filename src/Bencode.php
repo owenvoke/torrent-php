@@ -4,6 +4,9 @@ namespace OwenVoke\Torrent;
 
 use OwenVoke\Torrent\Exceptions\BencodeException;
 
+/**
+ * @see \OwenVoke\Torrent\BencodeTest
+ */
 final class Bencode
 {
     /**

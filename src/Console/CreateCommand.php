@@ -2,6 +2,7 @@
 
 namespace OwenVoke\Torrent\Console;
 
+use Exception;
 use OwenVoke\Torrent\Torrent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class CreateCommand extends Command
 {
+    /**
+     * @var string
+     */
+    private const V2_ONLY = 'v2-only';
     protected function configure(): void
     {
         $this
@@ -26,10 +31,10 @@ final class CreateCommand extends Command
                 'p',
                 InputOption::VALUE_REQUIRED,
                 'Must be a power of two',
-                65536
+                65_536
             )
             ->addOption(
-                'v2-only',
+                self::V2_ONLY,
                 '2',
                 InputOption::VALUE_NONE,
                 'Don\'t generate v1 compatibility keys'
@@ -47,7 +52,7 @@ final class CreateCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
@@ -60,12 +65,12 @@ final class CreateCommand extends Command
 
             $torrent->create(
                 $input->getOption('tracker'),
-                ! $input->getOption('v2-only')
+                ! $input->getOption(self::V2_ONLY)
             );
 
             $torrent->save();
 
-            if (! $input->getOption('v2-only')) {
+            if (! $input->getOption(self::V2_ONLY)) {
                 $output->writeln('v1 Info Hash: '.$torrent->infoHashV1());
             }
 
