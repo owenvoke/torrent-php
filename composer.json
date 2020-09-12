@@ -1,5 +1,5 @@
 {
-    "name": "pxgamer/torrent-v2",
+    "name": "owenvoke/torrent",
     "type": "library",
     "description": "A set of torrent management classes with support for Torrent v2.",
     "license": "MIT",
@@ -17,12 +17,12 @@
     },
     "autoload": {
         "psr-4": {
-            "pxgamer\\Torrent\\": "src"
+            "OwenVoke\\Torrent\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "pxgamer\\Torrent\\": "tests"
+            "OwenVoke\\Torrent\\": "tests"
         }
     },
     "scripts": {

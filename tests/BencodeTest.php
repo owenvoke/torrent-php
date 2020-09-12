@@ -1,9 +1,9 @@
 <?php
 
-namespace pxgamer\Torrent;
+namespace OwenVoke\Torrent;
 
 use PHPUnit\Framework\TestCase;
-use pxgamer\Torrent\Exceptions\BencodeException;
+use OwenVoke\Torrent\Exceptions\BencodeException;
 
 class BencodeTest extends TestCase
 {

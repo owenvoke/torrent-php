@@ -1,8 +1,8 @@
 <?php
 
-namespace pxgamer\Torrent;
+namespace OwenVoke\Torrent;
 
-use pxgamer\Torrent\Exceptions\BencodeException;
+use OwenVoke\Torrent\Exceptions\BencodeException;
 
 final class Bencode
 {

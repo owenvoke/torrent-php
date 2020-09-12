@@ -1,6 +1,6 @@
 <?php
 
-namespace pxgamer\Torrent\Console;
+namespace OwenVoke\Torrent\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;

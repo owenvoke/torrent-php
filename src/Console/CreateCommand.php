@@ -1,8 +1,8 @@
 <?php
 
-namespace pxgamer\Torrent\Console;
+namespace OwenVoke\Torrent\Console;
 
-use pxgamer\Torrent\Torrent;
+use OwenVoke\Torrent\Torrent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

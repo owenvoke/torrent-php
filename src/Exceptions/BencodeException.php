@@ -1,6 +1,6 @@
 <?php
 
-namespace pxgamer\Torrent\Exceptions;
+namespace OwenVoke\Torrent\Exceptions;
 
 class BencodeException extends \Exception
 {

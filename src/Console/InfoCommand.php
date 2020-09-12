@@ -1,9 +1,9 @@
 <?php
 
-namespace pxgamer\Torrent\Console;
+namespace OwenVoke\Torrent\Console;
 
-use pxgamer\Torrent\Bencode;
-use pxgamer\Torrent\Exceptions\BencodeException;
+use OwenVoke\Torrent\Bencode;
+use OwenVoke\Torrent\Exceptions\BencodeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
