@@ -4,9 +4,6 @@ namespace OwenVoke\Torrent\Exceptions;
 
 use Exception;
 
-/**
- * @see \OwenVoke\Torrent\BencodeExceptionTest
- */
 final class BencodeException extends Exception
 {
     public const STRING_LEADING_ZERO = 'Invalid string length, leading zero.';

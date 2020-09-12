@@ -21,7 +21,6 @@ it('throws an exception when decoding a string that is too short', function () {
     Bencode::decode($data);
 })->throws(BencodeException::class, BencodeException::STRING_INPUT_TOO_SHORT);
 
-
 it('throws an exception when decoding an empty string', function () {
     $data = 'ie';
 
