@@ -1,7 +1,8 @@
 /build
-/composer.lock
 /vendor
-/phpcs.xml
+/.phpunit.result.cache
+/.php_cs.cache
+/composer.lock
 /phpunit.xml
 /bin/torrent.phar
 /bin/torrent.phar.sig
