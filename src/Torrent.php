@@ -9,27 +9,40 @@ final class Torrent
 {
     /** @var int */
     public const BLOCK_SIZE = 16_384; // 16KB
+
     // 16KB
     // 16KB
     // 16KB
     /** @var int */
     public int $pieceLength;
+
     public array $pieceLayers;
+
     public array $files;
+
     public array $info;
+
     /** @var string */
     public $basePath;
+
     public ?string $name = null;
+
     /** @var array */
     public $pieces;
+
     public ?array $fileTree = null;
+
     public int $length;
+
     public ?FileHasher $residueHasher = null;
+
     public ?array $data = null;
+
     /**
      * @var string
      */
     private const LENGTH = 'length';
+
     /**
      * @var string
      */
@@ -38,7 +51,8 @@ final class Torrent
     /**
      * Torrent constructor.
      *
-     * @param int $pieceLength
+     * @param  int  $pieceLength
+     *
      * @throws Exception
      */
     public function __construct(int $pieceLength)
@@ -54,7 +68,8 @@ final class Torrent
     }
 
     /**
-     * @param string $path
+     * @param  string  $path
+     *
      * @throws Exception
      */
     public function prepare(string $path): void
@@ -102,6 +117,7 @@ final class Torrent
      * Return the info hash in v2 (SHA256) format.
      *
      * @return string
+     *
      * @throws Exception
      */
     public function infoHashV2(): string
@@ -113,6 +129,7 @@ final class Torrent
      * Return the info hash in v1 (SHA1) format.
      *
      * @return string
+     *
      * @throws Exception
      */
     public function infoHashV1(): string
@@ -123,8 +140,9 @@ final class Torrent
     /**
      * Walk through a directory or file and return an object.
      *
-     * @param string $path
+     * @param  string  $path
      * @return array
+     *
      * @throws Exception
      */
     private function walkPath(string $path): array
@@ -194,8 +212,8 @@ final class Torrent
     /**
      * Create an object of the v2 metadata.
      *
-     * @param string $tracker
-     * @param bool   $hybrid
+     * @param  string  $tracker
+     * @param  bool  $hybrid
      * @return array
      */
     public function create(string $tracker, bool $hybrid = true): array
@@ -236,8 +254,9 @@ final class Torrent
     /**
      * Save the data to a .torrent file.
      *
-     * @param null|string $filename
+     * @param  null|string  $filename
      * @return bool|int
+     *
      * @throws Exception
      */
     public function save(?string $filename = null)

@@ -7,7 +7,7 @@ use OwenVoke\Torrent\Exceptions\BencodeException;
 final class Bencode
 {
     /**
-     * @param mixed $mixed data to encode
+     * @param  mixed  $mixed data to encode
      * @return string torrent encoded data
      */
     public static function encode($mixed): ?string
@@ -69,8 +69,9 @@ final class Bencode
     }
 
     /**
-     * @param string $string data or file path to decode
+     * @param  string  $string data or file path to decode
      * @return array|string|int decoded torrent data
+     *
      * @throws BencodeException
      */
     public static function decode(string $string)
@@ -83,8 +84,9 @@ final class Bencode
     }
 
     /**
-     * @param string $data data to decode
+     * @param  string  $data data to decode
      * @return array|string|int decoded torrent data
+     *
      * @throws BencodeException
      */
     private static function decodeData(string &$data)
@@ -108,8 +110,9 @@ final class Bencode
     }
 
     /**
-     * @param string $data data to decode
+     * @param  string  $data data to decode
      * @return array decoded dictionary
+     *
      * @throws BencodeException
      */
     private static function decodeDictionary(string &$data): array
@@ -139,8 +142,9 @@ final class Bencode
     }
 
     /**
-     * @param string $data data to decode
+     * @param  string  $data data to decode
      * @return array decoded list
+     *
      * @throws BencodeException
      */
     private static function decodeList(string &$data): array
@@ -158,8 +162,9 @@ final class Bencode
     }
 
     /**
-     * @param string $data data to decode
+     * @param  string  $data data to decode
      * @return string decoded string
+     *
      * @throws BencodeException
      */
     private static function decodeString(string &$data): string
@@ -181,8 +186,9 @@ final class Bencode
     }
 
     /**
-     * @param string $data data to decode
+     * @param  string  $data data to decode
      * @return int decoded integer
+     *
      * @throws BencodeException
      */
     private static function decodeInteger(string &$data): int
@@ -208,7 +214,7 @@ final class Bencode
     }
 
     /**
-     * @param array $array
+     * @param  array  $array
      * @return bool
      */
     protected static function isList(array $array): bool
@@ -223,7 +229,7 @@ final class Bencode
     }
 
     /**
-     * @param string $data
+     * @param  string  $data
      * @return bool|string
      */
     private static function char(string $data)

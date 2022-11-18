@@ -3,7 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-github-actions]][link-github-actions]
-[![Style CI][ico-styleci]][link-styleci]
+[![Static Analysis][ico-static-analysis]][link-static-analysis]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Buy us a tree][ico-treeware-gifting]][link-treeware-gifting]
 
@@ -13,8 +13,8 @@ A set of torrent management classes with support for BitTorrent v2.
 
 Via Composer
 
-```bash
-$ composer require owenvoke/torrent
+```shell
+composer require owenvoke/torrent
 ```
 
 ## Usage
@@ -27,13 +27,13 @@ In future, this will be a standalone library, the CLI will be distributed separa
 
 **List available commands**
 
-```bash
+```shell
 torrent
 ```
 
 **Create a torrent file for a file or directory**
 
-```bash
+```shell
 torrent create 'file_or_directory'
 ```
 
@@ -43,8 +43,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Testing
 
-```bash
-$ composer test
+```shell
+composer test
 ```
 
 ## Contributing
@@ -77,13 +77,13 @@ Read more about Treeware at [treeware.earth][link-treeware].
 [ico-version]: https://img.shields.io/packagist/v/owenvoke/torrent.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-github-actions]: https://img.shields.io/github/workflow/status/owenvoke/torrent/Tests.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/104362826/shield
+[ico-static-analysis]: https://img.shields.io/github/workflow/status/owenvoke/skeleton-php/Static%20Analysis.svg?style=flat-square&label=Static%20Analysis
 [ico-downloads]: https://img.shields.io/packagist/dt/owenvoke/torrent.svg?style=flat-square
 [ico-treeware-gifting]: https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/owenvoke/torrent
 [link-github-actions]: https://github.com/owenvoke/torrent/actions
-[link-styleci]: https://styleci.io/repos/104362826
+[link-static-analysis]: https://github.com/owenvoke/skeleton-php/actions/workflows/static.yml
 [link-downloads]: https://packagist.org/packages/owenvoke/torrent
 [link-treeware]: https://treeware.earth
 [link-treeware-gifting]: https://ecologi.com/owenvoke?gift-trees

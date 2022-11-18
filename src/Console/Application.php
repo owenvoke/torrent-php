@@ -8,13 +8,14 @@ use Symfony\Component\Console\Command\Command;
 final class Application extends BaseApplication
 {
     public const NAME = 'BitTorrent v2 Manager';
+
     public const VERSION = '@git-version@';
 
     /**
      * Application constructor.
      *
-     * @param null|string $name
-     * @param null|string $version
+     * @param  null|string  $name
+     * @param  null|string  $version
      */
     public function __construct(?string $name = null, ?string $version = null)
     {

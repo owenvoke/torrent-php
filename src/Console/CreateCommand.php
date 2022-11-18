@@ -50,9 +50,10 @@ final class CreateCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return void
+     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): void

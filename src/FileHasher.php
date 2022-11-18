@@ -9,19 +9,26 @@ use SplFileObject;
 final class FileHasher
 {
     public int $length;
+
     public HashContext $padHasher;
+
     public int $padLength;
+
     /** @var mixed */
     public $root;
+
     public array $v1Pieces;
+
     public array $v2Pieces;
+
     public string $path;
 
     /**
      * FileHasher constructor.
      *
-     * @param string $path
-     * @param int    $pieceLength
+     * @param  string  $path
+     * @param  int  $pieceLength
+     *
      * @throws Exception
      */
     public function __construct(string $path, int $pieceLength)
@@ -109,7 +116,7 @@ final class FileHasher
     /**
      * Compute the root hash of a Merkle tree with the given list of leaf hashes.
      *
-     * @param array $hashes
+     * @param  array  $hashes
      * @return mixed
      */
     public static function rootHash(array $hashes)

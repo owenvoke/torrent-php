@@ -16,10 +16,12 @@ final class InfoCommand extends Command
      * @var string
      */
     private const INFO = 'info';
+
     /**
      * @var string
      */
     private const PATH = 'path';
+
     /**
      * @var string
      */
@@ -38,9 +40,10 @@ final class InfoCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return void
+     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
@@ -69,7 +72,7 @@ final class InfoCommand extends Command
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     private function formatDetails(array $data): array
