@@ -7,13 +7,14 @@
         "bin/torrent"
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
-        "symfony/console": "^5.0"
+        "php": "^8.1",
+        "symfony/console": "^6.1"
     },
     "require-dev": {
-        "pestphp/pest": "^1.0",
-        "phpstan/phpstan": "^0.12.66",
-        "symfony/var-dumper": "^5.1"
+        "laravel/pint": "^1.0",
+        "pestphp/pest": "^1.21.3",
+        "phpstan/phpstan": "^1.9.2",
+        "symfony/var-dumper": "^6.1"
     },
     "autoload": {
         "psr-4": {
@@ -26,16 +27,23 @@
         }
     },
     "scripts": {
-        "test:types": "phpstan analyse --ansi --memory-limit=0",
+        "lint": "pint --ansi",
+        "test:lint": "pint --test --ansi",
+        "test:types": "phpstan analyse --ansi --memory-limit=-1",
         "test:unit": "pest --colors=always",
         "test": [
+            "@test:lint",
             "@test:types",
             "@test:unit"
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
+
